@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
-const port = 3001;
+const port = 3000;
 
 const path = require('path');
 const fs = require('fs');
@@ -9,6 +9,7 @@ const fs = require('fs');
 app.use(cookieParser());
 app.use('/lib', express.static(path.join(__dirname, 'lib')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
 app.get('/', (req, res) => {
     res.redirect(301, '/webview/crazy-parking-lot');
@@ -20,7 +21,6 @@ app.get('/webview/crazy-parking-lot', (req, res) => {
     //res.cookie('webView', req.cookies);
     res.sendFile(path.join(__dirname, './dist/index.html'));
 });
-
 
 // image download
 app.get(/^\/assets/, (req, res) => {
