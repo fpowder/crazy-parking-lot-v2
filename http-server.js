@@ -3,19 +3,29 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = 3000;
 
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const config = require('./webpack.config.js');
+const compiler = webpack(config);
+
 const path = require('path');
 const fs = require('fs');
 
 app.use(cookieParser());
-app.use('/lib', express.static(path.join(__dirname, 'lib')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
-app.use('/dist', express.static(path.join(__dirname, 'dist')));
+// app.use('/dist', express.static(path.join(__dirname, 'dist')));
+
+app.use(
+    webpackDevMiddleware(compiler, {
+        publicPath: config.output.publicPath,
+    })
+)
 
 app.get('/', (req, res) => {
-    res.redirect(301, '/webview/crazy-parking-lot');
+    res.redirect(301, '/crazy-parking-lot');
 }); 
 
-app.get('/webview/crazy-parking-lot', (req, res) => {
+app.get('/crazy-parking-lot', (req, res) => {
 
     //res.clearCookie('webView');
     //res.cookie('webView', req.cookies);
