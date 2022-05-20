@@ -1,22 +1,49 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpackDevMiddleware = require('webpack-dev-middleware');
 
 module.exports = {
+    // entry: {
+    //     index: {
+    //         import: './src/index.js',
+    //         dependOn: 'shared',
+    //     },
+    //     print: './src/print/print.js',
+    //     another: {
+    //         import: './src/another/another.js',
+    //         dependOn: 'shared'
+    //     },
+    //     shared: 'lodash',
+    // },
     entry: {
         index: './src/index.js',
-        print: './src/print.js'
+        print: './src/print/print.js',
+        another: './src/another/another.js',
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Output Management',
+            template: './src/template/index.html',
+            hash: true,
+            excludeChunks: ['another'],
+            filename: 'index.html'
         }),
+        new HtmlWebpackPlugin({
+            template: './src/template/another.html',
+            hash: true,
+            chunks: ['another'],
+            filename: 'another.html'
+        })
     ],
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
         clean: true,
         publicPath: '/dist'
+    },
+    optimization: {
+        runtimeChunk: 'single',
+        splitChunks: {
+            chunks: 'all'
+        }
     },
     module: {
         rules: [

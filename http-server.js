@@ -13,7 +13,7 @@ const fs = require('fs');
 
 app.use(cookieParser());
 app.use('/js', express.static(path.join(__dirname, 'js')));
-// app.use('/dist', express.static(path.join(__dirname, 'dist')));
+app.use('/', express.static(path.join(__dirname, 'dist')));
 
 app.use(
     webpackDevMiddleware(compiler, {

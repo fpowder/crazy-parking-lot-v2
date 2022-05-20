@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import './style.css';
 import Icon from './icon.png';
-import printMe from './print.js';
+import printMe from './print/print.js';
 
 function component() {
     const element = document.createElement('div');
@@ -12,7 +12,7 @@ function component() {
     element.classList.add('hello');
 
     btn.innerHTML = 'Click me and check the console!';
-    btn.onClick = printMe;
+    btn.onclick = printMe;
 
     element.appendChild(btn);
 
