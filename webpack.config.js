@@ -15,9 +15,9 @@ module.exports = {
     //     shared: 'lodash',
     // },
     entry: {
-        index: './src/index.js',
-        print: './src/print/print.js',
-        another: './src/another/another.js',
+        index: './src/index.ts',
+        print: './src/print/print.ts',
+        another: './src/another/another.ts',
     },
     devtool: 'inline-source-map',
     plugins: [
