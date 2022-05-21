@@ -19,6 +19,7 @@ module.exports = {
         print: './src/print/print.js',
         another: './src/another/another.js',
     },
+    devtool: 'inline-source-map',
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/template/index.html',
@@ -58,7 +59,15 @@ module.exports = {
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource',
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: '/node_modules/'
             }
         ]
+    },
+    resolve: {
+        extensions: ['.tsx', '.js', '.ts']
     }
 }

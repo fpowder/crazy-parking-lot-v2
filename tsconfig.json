@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "noImplicitAny": false,
+        "module": "es6",
+        "target": "es5",
+        "jsx": "preserve",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "experimentalDecorators": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": true,
+		"baseUrl": "./src",
+		"paths": {
+		  "~/*": ["./*"]
+		},
+		"typeRoots": [
+			"node_modules/@types",
+			"node_module/phaser/types",
+            "src/types"
+		],
+		"types": [
+			"phaser"
+		]
+
+    },
+	"include": [
+		"src/**/*"
+	]
+
+}
