@@ -46,6 +46,7 @@ export default class Wall extends Phaser.Scene {
 
         wall.setCollision([ 19, 33, 47 ]);
 
+        // 각 씬 마다 핀치 이벤트 먹음....
         let pinch = new Pinch(this, {
             enable: true,
             bounds: undefined,
