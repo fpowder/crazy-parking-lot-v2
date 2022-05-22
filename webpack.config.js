@@ -16,22 +16,21 @@ module.exports = {
     // },
     entry: {
         index: './src/index.ts',
-        print: './src/print/print.ts',
-        another: './src/another/another.ts',
+        crazyParkingLot: './src/crazyParkingLot.ts'
     },
     devtool: 'inline-source-map',
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/template/index.html',
             hash: true,
-            excludeChunks: ['another'],
+            excludeChunks: ['crazyParkingLot'],
             filename: 'index.html'
         }),
         new HtmlWebpackPlugin({
-            template: './src/template/another.html',
+            template: './src/template/crazyParkingLot.html',
             hash: true,
-            chunks: ['another'],
-            filename: 'another.html'
+            chunks: ['crazyParkingLot'],
+            filename: 'crazyParkingLot.html'
         })
     ],
     output: {
