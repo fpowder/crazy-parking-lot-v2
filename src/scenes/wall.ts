@@ -47,24 +47,24 @@ export default class Wall extends Phaser.Scene {
         wall.setCollision([ 19, 33, 47 ]);
 
         // 각 씬 마다 핀치 이벤트 먹음....
-        let pinch = new Pinch(this, {
-            enable: true,
-            bounds: undefined,
-            threshold: 0
-        });
-        let camera = this.cameras.main;
-        pinch
-            .on('drag1', function (pinch) {
-                console.log(pinch.drag1Vector);
-                let drag1Vector = pinch.drag1Vector;
-                camera.scrollX -= drag1Vector.x / camera.zoom;
-                camera.scrollY -= drag1Vector.y / camera.zoom;
-            })
-            .on('pinch', function (pinch) {
-                console.log(pinch.scaleFactor);
-                let scaleFactor = pinch.scaleFactor;
-                camera.zoom *= scaleFactor;
-            }, this)
+        // let pinch = new Pinch(this, {
+        //     enable: true,
+        //     bounds: undefined,
+        //     threshold: 0
+        // });
+        // let camera = this.cameras.main;
+        // pinch
+        //     .on('drag1', function (pinch) {
+        //         console.log(pinch.drag1Vector);
+        //         let drag1Vector = pinch.drag1Vector;
+        //         camera.scrollX -= drag1Vector.x / camera.zoom;
+        //         camera.scrollY -= drag1Vector.y / camera.zoom;
+        //     })
+        //     .on('pinch', function (pinch) {
+        //         console.log(pinch.scaleFactor);
+        //         let scaleFactor = pinch.scaleFactor;
+        //         camera.zoom *= scaleFactor;
+        //     }, this)
 
     }
 

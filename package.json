@@ -7,7 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon ./http-server.js",
     "start": "concurrently \"webpack --watch --mode development\" \"nodemon ./http-server.js\"",
-    "build": "webpack"
+    "build": "webpack",
+    "node-nightly": "node-nightly --inspect-brk ./node_modules/webpack/bin/webpack.js",
+    "node-nightly-debug": "node-nightly --inspect --debug-brk crazyParkingLot.ts",
+    "node-nightly-upgrade": "node-nightly --upgrade"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +21,7 @@
     "eslint-webpack-plugin": "^3.1.1",
     "html": "^1.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "node-nightly": "^1.8.1",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.3.0",
     "typescript": "^4.6.4",

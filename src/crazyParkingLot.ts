@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 
-import Wall from './scenes/Wall';
-import ParkingArea from './scenes/parkingArea';
-import EntranceExit from './scenes/EntranceExit';
+// import Wall from './scenes/Wall';
+// import ParkingArea from './scenes/parkingArea';
+// import EntranceExit from './scenes/EntranceExit';
 
 // phaser3 rex plugins
 import GesturesPlugin from 'phaser3-rex-plugins/plugins/gestures-plugin';
@@ -23,6 +23,7 @@ class CrazyParkingLot extends Phaser.Scene {
 
     preload() {
         this.load.image('tiles', 'assets/gridTiles.png');
+        this.load.tilemapTiledJSON('map', 'tile/crazyParkingLot.json');
     }
 
     create() {
@@ -31,35 +32,46 @@ class CrazyParkingLot extends Phaser.Scene {
         // this.scene.start('parkingArea');
         // this.scene.start('entranceExit');
 
-        // this.scene.add('preloader', Preloader, true, null);
-        this.scene.add('wall', Wall, true, null);
-        this.scene.add('parkingArea', ParkingArea, true, null);
-        this.scene.add('entranceExit', EntranceExit, true, null);
+        // this.add.dom(0, 0, '#touchDom', `touch-action: auto; overflow: hidden; margin: 0%; padding: 0%; z-index: 100; width: 100%; height: 100%; position: absolute; right: 0px, top: 0px;`);
 
-        // let pinch = new Pinch(this, {
-        //     enable: true,
-        //     bounds: undefined,
-        //     threshold: 0
-        // });
-        // let camera = this.cameras.main;
-        // pinch
-        //     .on('drag1', function (pinch) {
-        //         console.log(pinch.drag1Vector);
-        //         let drag1Vector = pinch.drag1Vector;
-        //         camera.scrollX -= drag1Vector.x / camera.zoom;
-        //         camera.scrollY -= drag1Vector.y / camera.zoom;
-        //     })
-        //     .on('pinch', function (pinch) {
-        //         console.log(pinch.scaleFactor);
-        //         let scaleFactor = pinch.scaleFactor;
-        //         camera.zoom *= scaleFactor;
-        //     }, this)
+        // this.scene.add('preloader', Preloader, true, null);
+        // this.scene.add('wall', Wall, true, null);
+        // this.scene.add('parkingArea', ParkingArea, true, null);
+        // this.scene.add('entranceExit', EntranceExit, true, null);
+
+        const crazyParkingLotMap = this.make.tilemap({ key: 'map' });
+        let tiles = crazyParkingLotMap.addTilesetImage('gridtiles', 'tiles');
+
+        const layer = crazyParkingLotMap.createLayer(0, tiles, 0, 0);
+        layer.setScale(settings.spacer / 32);
+
+        let pinch = new Pinch(this, {
+            enable: true,
+            bounds: undefined,
+            threshold: 0
+        });
+        let camera = this.cameras.main;
+        pinch
+            .on('drag1', function (pinch) {
+                //console.log(pinch.drag1Vector);
+                let drag1Vector = pinch.drag1Vector;
+                camera.scrollX -= drag1Vector.x / camera.zoom;
+                camera.scrollY -= drag1Vector.y / camera.zoom;
+            })
+            .on('pinch', function (pinch) {
+                //console.log(pinch.scaleFactor);
+                let scaleFactor = pinch.scaleFactor;
+                camera.zoom *= scaleFactor;
+            }, this)
+
     }
 }
 
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
-    parent: 'parking-lot',
+    // dom:{
+    //     createContainer: true
+    // },
     width: settings.phrWidth,
     height: settings.phrHeight,
     pixelArt: true,
@@ -68,7 +80,9 @@ const config: Phaser.Types.Core.GameConfig = {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
     backgroundColor: '#b7dfed',
-    // canvasStyle: `left: ${settings.cnvAdjWidth}px; top: ${settings.cnvAdjHeight}px; position: absolute;`,
+    // canvasStyle: `left: ${settings.cnvAdjWidth}px; top: ${settings.cnvAdjHeight}px; position: absolute; z-index: -1;`,
+    // canvasStyle: `touch-action: auto; overflow: hidden; margin: 0%; padding: 0%;`,
+    // canvasStyle: `z-index: -1;`,
     plugins: {
         scene: [
             { key: 'rexGestures', plugin: GesturesPlugin, mapping: 'rexGestures' }
@@ -85,12 +99,17 @@ const config: Phaser.Types.Core.GameConfig = {
             debug: true
         }
     },
-    scene: [CrazyParkingLot]
+    scene: [CrazyParkingLot],
     // scene: {
     //     preload: preload,
     //     create: create
-    // }
-    // scene: [ Preloader, Wall, ParkingArea, EntranceExit ]
+    // },
+    // scene: [ Preloader, Wall, ParkingArea, EntranceExit ],
+    // callbacks: {
+    //     postBoot: function (game) {
+    //       game.domContainer.style.pointerEvents = 'none';
+    //     },
+    // },
 }
 
 export default new Phaser.Game(config);

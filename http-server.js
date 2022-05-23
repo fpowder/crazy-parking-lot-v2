@@ -43,10 +43,10 @@ app.get(/^\/assets/, (req, res) => {
     });
 });
 
-app.get(/^\/grid/, (req, res) => {
+app.get(/^\/tile/, (req, res) => {
     fs.readFile(__dirname + req.originalUrl, (err, data) => {
         res.writeHead(200, {
-            'Content-Type': 'text/csv',
+            'Content-Type': 'application/json',
             'Content-Length': data.length
         });
         res.end(data);

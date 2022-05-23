@@ -28,8 +28,9 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: './src/template/crazyParkingLot.html',
-            hash: true,
-            chunks: ['crazyParkingLot'],
+            hash: false,
+            // chunks: ['crazyParkingLot'],
+            excludeChunks: ['index'],
             filename: 'crazyParkingLot.html'
         })
     ],

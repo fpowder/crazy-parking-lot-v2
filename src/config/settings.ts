@@ -1,7 +1,7 @@
 export const settings = (() => {
     // 가로 세로 cell수
-    let xGridCnt = 7;
-    let yGridCnt = 12;
+    let xGridCnt = 59;
+    let yGridCnt = 143;
 
     // let xGridCnt = 60;
     // let yGridCnt = 168;
@@ -9,7 +9,7 @@ export const settings = (() => {
     let aspectRatio = yGridCnt / xGridCnt;
     let reverseAspectRatio = xGridCnt / yGridCnt;
 
-    let phrHeight = window.innerHeight * 0.919;
+    let phrHeight = window.innerHeight;// * 0.919;
     let phrWidth = phrHeight * reverseAspectRatio;
 
     if (phrWidth > window.innerWidth) {
