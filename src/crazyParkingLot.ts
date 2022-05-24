@@ -15,7 +15,7 @@ class CrazyParkingLot extends Phaser.Scene {
         super({
             key: 'crazyParkingLot'
         });
-
+        
         // super({
         //     key: 'examples'
         // });
@@ -23,7 +23,9 @@ class CrazyParkingLot extends Phaser.Scene {
 
     preload() {
         this.load.image('tiles', 'assets/gridTiles.png');
+        this.load.spritesheet('parkingArea','assets/parkingArea.png', { frameWidth: 129, frameHeight: 164 });
         this.load.tilemapTiledJSON('map', 'tile/crazyParkingLot.json');
+        
     }
 
     create() {
@@ -39,18 +41,40 @@ class CrazyParkingLot extends Phaser.Scene {
         // this.scene.add('parkingArea', ParkingArea, true, null);
         // this.scene.add('entranceExit', EntranceExit, true, null);
 
-        const crazyParkingLotMap = this.make.tilemap({ key: 'map' });
-        let tiles = crazyParkingLotMap.addTilesetImage('gridtiles', 'tiles');
+        // const cplMap = this.make.tilemap({ key: 'map' });
+        const cplMap = this.add.tilemap('map');
 
-        const layer = crazyParkingLotMap.createLayer(0, tiles, 0, 0);
-        layer.setScale(settings.spacer / 32);
+        // tileset name -> gridtiles
+        let cptiles = cplMap.addTilesetImage('gridtiles', 'tiles');
 
+        let layer = cplMap.createLayer('paTileLayer', cptiles, 0 , 0);
+        // layer.setScale(settings.spacer / 32);
+
+        // create normal object layer
+        let objLayer = cplMap.createFromObjects('paLayer', [
+            { gid: 141, key: 'parkingArea' },
+            { id: 238 },
+            { id: 234 }
+        ]);
+
+        // const objGroup = this.add.group();
+        // let gids = {};
+        // let ids = {};
+        // let objLayer = cplMap.getObjectLayer('paLayer');
+        // objLayer.objects.forEach(object => {
+        //     const { gid, id } = object;
+        //     console.log(object);
+            
+        // });
+
+
+        let camera = this.cameras.main;
         let pinch = new Pinch(this, {
             enable: true,
             bounds: undefined,
             threshold: 0
         });
-        let camera = this.cameras.main;
+        
         pinch
             .on('drag1', function (pinch) {
                 //console.log(pinch.drag1Vector);
@@ -63,7 +87,9 @@ class CrazyParkingLot extends Phaser.Scene {
                 let scaleFactor = pinch.scaleFactor;
                 camera.zoom *= scaleFactor;
             }, this)
+        
 
+        this.scale.setGameSize(settings.phrWidth, settings.cnvAdjHeight);
     }
 }
 
@@ -93,11 +119,11 @@ const config: Phaser.Types.Core.GameConfig = {
         // arcade: {
         //     gravity: { y: 0 }
         // }
-        default: 'matter',
-        matter: {
-            gravity: { x: 0, y: 0 },
-            debug: true
-        }
+        // default: 'matter',
+        // matter: {
+        //     gravity: { x: 0, y: 0 },
+        //     debug: true
+        // }
     },
     scene: [CrazyParkingLot],
     // scene: {

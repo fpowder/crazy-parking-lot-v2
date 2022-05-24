@@ -12,8 +12,8 @@ const path = require('path');
 const fs = require('fs');
 
 app.use(cookieParser());
-app.use('/js', express.static(path.join(__dirname, 'js')));
-app.use('/', express.static(path.join(__dirname, 'dist')));
+// app.use('/js', express.static(path.join(__dirname, 'js')));
+// app.use('/', express.static(path.join(__dirname, 'dist')));
 
 app.use(
     webpackDevMiddleware(compiler, {
@@ -29,7 +29,7 @@ app.get('/crazy-parking-lot', (req, res) => {
 
     //res.clearCookie('webView');
     //res.cookie('webView', req.cookies);
-    res.sendFile(path.join(__dirname, './dist/index.html'));
+    res.sendFile(path.join(__dirname, './dist/crazyParkingLot.html'));
 });
 
 // image download
