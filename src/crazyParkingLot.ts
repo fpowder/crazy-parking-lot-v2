@@ -1,16 +1,16 @@
 import Phaser from 'phaser';
 
-// import Wall from './scenes/Wall';
-// import ParkingArea from './scenes/parkingArea';
-// import EntranceExit from './scenes/EntranceExit';
-
 // phaser3 rex plugins
 import GesturesPlugin from 'phaser3-rex-plugins/plugins/gestures-plugin';
 import { Pinch } from 'phaser3-rex-plugins/plugins/gestures';
 
 import { settings }  from './config/settings';
+import { Car } from './object/car';
 
-class CrazyParkingLot extends Phaser.Scene {
+export class CrazyParkingLot extends Phaser.Scene {
+
+    static readonly TILE_SIZE = 32;
+
     constructor() {
         super({
             key: 'crazyParkingLot'
@@ -22,37 +22,27 @@ class CrazyParkingLot extends Phaser.Scene {
     }
 
     preload() {
+        // parking area tiles
         this.load.image('tiles', 'assets/gridTiles.png');
+        // parking area
         this.load.spritesheet('parkingArea','assets/parkingArea.png', { frameWidth: 129, frameHeight: 164 });
+        // tile layer and parking area json
         this.load.tilemapTiledJSON('map', 'tile/crazyParkingLot.json');
+        // car
+        this.load.spritesheet('redCar', 'assets/car/red.png', { frameWidth: 128, frameHeight: 231 });
         
     }
 
     create() {
 
-        // this.scene.start('wall');
-        // this.scene.start('parkingArea');
-        // this.scene.start('entranceExit');
-
-        // this.add.dom(0, 0, '#touchDom', `touch-action: auto; overflow: hidden; margin: 0%; padding: 0%; z-index: 100; width: 100%; height: 100%; position: absolute; right: 0px, top: 0px;`);
-
-        // this.scene.add('preloader', Preloader, true, null);
-        // this.scene.add('wall', Wall, true, null);
-        // this.scene.add('parkingArea', ParkingArea, true, null);
-        // this.scene.add('entranceExit', EntranceExit, true, null);
-
-        // const cplMap = this.make.tilemap({ key: 'map' });
-        const cplMap = this.add.tilemap('map');
+        const cplMap = this.make.tilemap({ key: 'map' });
+        // const cplMap = this.add.tilemap('map');
 
         // tileset name -> gridtiles
         let cptiles = cplMap.addTilesetImage('gridtiles', 'tiles');
 
-
-        let xGridCnt = 59;
-        let yGridCnt = 143;
-
-        let layerWidth = xGridCnt * 32;
-        let layerHeight = yGridCnt * 32;
+        let layerWidth = settings.xGridCnt * 32;
+        let layerHeight = settings.yGridCnt * 32;
 
         let layer = cplMap.createLayer('paTileLayer', cptiles, 0, 0);
         // layer.setScale(settings.spacer / 32);
@@ -64,21 +54,9 @@ class CrazyParkingLot extends Phaser.Scene {
             { id: 234 }
         ]);
 
-
         // sprites.forEach((value: Phaser.GameObjects.Sprite) => {
         //     value.setScale(settings.spacer / 32, settings.spacer / 32);
         // });
-
-        // const objGroup = this.add.group();
-        // let gids = {};
-        // let ids = {};
-        // let objLayer = cplMap.getObjectLayer('paLayer');
-        // objLayer.objects.forEach(object => {
-        //     const { gid, id } = object;
-        //     console.log(object);
-            
-        // });
-
 
         let camera = this.cameras.main;
         
@@ -92,18 +70,23 @@ class CrazyParkingLot extends Phaser.Scene {
             threshold: 0
         });
         
-        pinch
-            .on('drag1', function (pinch) {
-                //console.log(pinch.drag1Vector);
-                let drag1Vector = pinch.drag1Vector;
-                camera.scrollX -= drag1Vector.x / camera.zoom;
-                camera.scrollY -= drag1Vector.y / camera.zoom;
-            })
-            .on('pinch', function (pinch) {
-                //console.log(pinch.scaleFactor);
-                let scaleFactor = pinch.scaleFactor;
-                camera.zoom *= scaleFactor;
-            }, this)
+        // console.log(pinch);
+
+        pinch.on('drag1', function (pinch) {
+            //console.log(pinch.drag1Vector);
+            let drag1Vector = pinch.drag1Vector;
+            camera.scrollX -= drag1Vector.x / camera.zoom;
+            camera.scrollY -= drag1Vector.y / camera.zoom;
+        }).on('pinch', function (pinch) {
+            //console.log(pinch.scaleFactor);
+            let scaleFactor = pinch.scaleFactor;
+            camera.zoom *= scaleFactor;
+        }, this);
+
+        const redCarSprite = this.physics.add.sprite(0, 0, "redCar");
+        // redCarSprite.setDepth(2);
+
+        const redCar = new Car(redCarSprite, new Phaser.Math.Vector2(36, 112));
 
     }
 }
@@ -130,10 +113,11 @@ const config: Phaser.Types.Core.GameConfig = {
         ]
     },
     physics: {
-        // default: 'arcade',
-        // arcade: {
-        //     gravity: { y: 0 }
-        // }
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 100 },
+            debug: true
+        }
         // default: 'matter',
         // matter: {
         //     gravity: { x: 0, y: 0 },
@@ -153,4 +137,4 @@ const config: Phaser.Types.Core.GameConfig = {
     // },
 }
 
-export default new Phaser.Game(config);
+export const game = new Phaser.Game(config);
