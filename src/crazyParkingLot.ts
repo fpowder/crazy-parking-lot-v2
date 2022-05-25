@@ -47,15 +47,27 @@ class CrazyParkingLot extends Phaser.Scene {
         // tileset name -> gridtiles
         let cptiles = cplMap.addTilesetImage('gridtiles', 'tiles');
 
-        let layer = cplMap.createLayer('paTileLayer', cptiles, 0 , 0);
+
+        let xGridCnt = 59;
+        let yGridCnt = 143;
+
+        let layerWidth = xGridCnt * 32;
+        let layerHeight = yGridCnt * 32;
+
+        let layer = cplMap.createLayer('paTileLayer', cptiles, 0, 0);
         // layer.setScale(settings.spacer / 32);
 
         // create normal object layer
-        let objLayer = cplMap.createFromObjects('paLayer', [
+        let sprites = cplMap.createFromObjects('paLayer', [
             { gid: 141, key: 'parkingArea' },
             { id: 238 },
             { id: 234 }
         ]);
+
+
+        // sprites.forEach((value: Phaser.GameObjects.Sprite) => {
+        //     value.setScale(settings.spacer / 32, settings.spacer / 32);
+        // });
 
         // const objGroup = this.add.group();
         // let gids = {};
@@ -69,6 +81,11 @@ class CrazyParkingLot extends Phaser.Scene {
 
 
         let camera = this.cameras.main;
+        
+        camera.scrollX += (layerWidth / 2) - (settings.phrWidth / 2);
+        camera.scrollY += (layerHeight / 2) - (settings.phrHeight / 2);
+        camera.zoom *= settings.spacer / 32;
+
         let pinch = new Pinch(this, {
             enable: true,
             bounds: undefined,
@@ -87,9 +104,7 @@ class CrazyParkingLot extends Phaser.Scene {
                 let scaleFactor = pinch.scaleFactor;
                 camera.zoom *= scaleFactor;
             }, this)
-        
 
-        this.scale.setGameSize(settings.phrWidth, settings.cnvAdjHeight);
     }
 }
 
