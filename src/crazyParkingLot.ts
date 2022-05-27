@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import Phaser, { GameObjects } from 'phaser';
 
 // phaser3 rex plugins
 import GesturesPlugin from 'phaser3-rex-plugins/plugins/gestures-plugin';
@@ -10,15 +10,21 @@ import { Car } from './object/car';
 export class CrazyParkingLot extends Phaser.Scene {
 
     static readonly TILE_SIZE = 32;
+    
+    wallLayer: Phaser.Tilemaps.TilemapLayer;
+    floorLayer: Phaser.Tilemaps.TilemapLayer;
+    entranceExitLayer: Phaser.Tilemaps.TilemapLayer;
+
+    parkingAreas: any;
+    entrance: any; 
+    exit: any;
 
     constructor() {
         super({
             key: 'crazyParkingLot'
         });
-        
-        // super({
-        //     key: 'examples'
-        // });
+
+        // this.wallLayer;
     }
 
     preload() {
@@ -52,79 +58,23 @@ export class CrazyParkingLot extends Phaser.Scene {
         // layer.setScale(settings.spacer / 32);
 
         // collision border graphic add
-        // let graphics = this.add.graphics();
+        
 
-        let wallLayer = cplMap.createLayer('wallLayer', 'gridtiles', 0, 0);
-        let floorLayer = cplMap.createLayer('floorLayer', 'gridtiles', 0, 0);
-        let entranceExitLayer = cplMap.createLayer('entranceExitLayer', 'gridtiles', 0, 0);
+        this.wallLayer = cplMap.createLayer('wallLayer', 'gridtiles', 0, 0);
+        this.floorLayer = cplMap.createLayer('floorLayer', 'gridtiles', 0, 0);
+        this.entranceExitLayer = cplMap.createLayer('entranceExitLayer', 'gridtiles', 0, 0);
 
-        // wallLayer.setCollisionFromCollisionGroup(true);
-        // wallLayer.setCollisionByProperty({ collides: true });
+        this.wallLayer.setCollisionByProperty({ collides: true });
+        // this.wallLayer.setCollisionFromCollisionGroup();
 
-        // wallLayer.forEachTile((tile) => {
-        //     let tileWorldPos = wallLayer.tileToWorldXY(tile.x, tile.y);
-        //     let collisionGroup: any = cpltiles.getTileCollisionGroup(tile.index);
-
-        //     console.log(collisionGroup);
-        //     if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
-
-        //     if (collisionGroup.properties && collisionGroup.properties.isInteractive)
-        //     {
-        //         graphics.lineStyle(5, 0x00ff00, 1);
-        //     }
-        //     else
-        //     {
-        //         graphics.lineStyle(5, 0x00ffff, 1);
-        //     }
-
-        //     var objects = collisionGroup.objects;
-
-        //     for (var i = 0; i < objects.length; i++) {
-        //         var object = objects[i];
-        //         var objectX = tileWorldPos.x + object.x;
-        //         var objectY = tileWorldPos.y + object.y;
-
-        //         // When objects are parsed by Phaser, they will be guaranteed to have one of the
-        //         // following properties if they are a rectangle/ellipse/polygon/polyline.
-        //         if (object.rectangle)
-        //         {
-        //             graphics.strokeRect(objectX, objectY, object.width, object.height);
-        //         }
-        //         else if (object.ellipse)
-        //         {
-        //             // Ellipses in Tiled have a top-left origin, while ellipses in Phaser have a center
-        //             // origin
-        //             graphics.strokeEllipse(
-        //                 objectX + object.width / 2, objectY + object.height / 2,
-        //                 object.width, object.height
-        //             );
-        //         }
-        //         else if (object.polygon || object.polyline)
-        //         {
-        //             var originalPoints = object.polygon ? object.polygon : object.polyline;
-        //             var points = [];
-        //             for (var j = 0; j < originalPoints.length; j++)
-        //             {
-        //                 var point = originalPoints[j];
-        //                 points.push({
-        //                     x: objectX + point.x,
-        //                     y: objectY + point.y
-        //                 });
-        //             }
-        //             graphics.strokePoints(points);
-        //         }
-        //     }
-
-        // })
-
-        // create normal object layer
-        cplMap.createFromObjects('parkingAreas', [
+        // create objects layer
+        this.parkingAreas = cplMap.createFromObjects('parkingAreas', [
             { gid: 141, key: 'parkingAreaImg' },
         ]);
-        cplMap.createFromObjects('entrance', [
+        this.entrance = cplMap.createFromObjects('entrance', [
             { id: 5 },
         ]);
-        cplMap.createFromObjects('exit', [
+        this.exit = cplMap.createFromObjects('exit', [
             { id: 5 },
         ]);
         
@@ -158,9 +108,9 @@ export class CrazyParkingLot extends Phaser.Scene {
         }, this);
 
         const redCarSprite = this.physics.add.sprite(0, 0, "redCar");
-        const redCar = new Car(redCarSprite, new Phaser.Math.Vector2(36, 112));
-        
-        this.physics.add.collider(redCarSprite, wallLayer);
+        const redCar = new Car(redCarSprite, new Phaser.Math.Vector2(37, 113), this, this.wallLayer);
+        // redCarSprite.setDepth(2);
+        // this.physics.add.collider(redCarSprite, wallLayer);
 
     } // create
 
