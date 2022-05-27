@@ -15,22 +15,22 @@ module.exports = {
     //     shared: 'lodash',
     // },
     entry: {
-        index: './src/index.ts',
+        // index: './src/index.ts',
         crazyParkingLot: './src/crazyParkingLot.ts'
     },
     devtool: 'inline-source-map',
     plugins: [
-        new HtmlWebpackPlugin({
-            template: './src/template/index.html',
-            hash: true,
-            excludeChunks: ['crazyParkingLot'],
-            filename: 'index.html'
-        }),
+        // new HtmlWebpackPlugin({
+        //     template: './src/template/index.html',
+        //     hash: true,
+        //     excludeChunks: ['crazyParkingLot'],
+        //     filename: 'index.html'
+        // }),
         new HtmlWebpackPlugin({
             template: './src/template/crazyParkingLot.html',
             hash: false,
             // chunks: ['crazyParkingLot'],
-            excludeChunks: ['index'],
+            // excludeChunks: ['index'],
             filename: 'crazyParkingLot.html'
         })
     ],

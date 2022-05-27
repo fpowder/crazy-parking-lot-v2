@@ -1,4 +1,4 @@
-import Phaser, { GameObjects } from 'phaser';
+import Phaser from 'phaser';
 
 // phaser3 rex plugins
 import GesturesPlugin from 'phaser3-rex-plugins/plugins/gestures-plugin';
@@ -19,12 +19,13 @@ export class CrazyParkingLot extends Phaser.Scene {
     entrance: any; 
     exit: any;
 
+    //mouse input
+    //input: ; 
+
     constructor() {
         super({
             key: 'crazyParkingLot'
         });
-
-        // this.wallLayer;
     }
 
     preload() {
@@ -57,16 +58,15 @@ export class CrazyParkingLot extends Phaser.Scene {
         // let layer = cplMap.createLayer('paTileLayer', cptiles, 0, 0);
         // layer.setScale(settings.spacer / 32);
 
-        // collision border graphic add
-        
-
         this.wallLayer = cplMap.createLayer('wallLayer', 'gridtiles', 0, 0);
         this.floorLayer = cplMap.createLayer('floorLayer', 'gridtiles', 0, 0);
         this.entranceExitLayer = cplMap.createLayer('entranceExitLayer', 'gridtiles', 0, 0);
 
         this.wallLayer.setCollisionByProperty({ collides: true });
+        // this.entranceExitLayer.setCollisionByProperty({ collides: true });
+        
         // this.wallLayer.setCollisionFromCollisionGroup();
-
+        
         // create objects layer
         this.parkingAreas = cplMap.createFromObjects('parkingAreas', [
             { gid: 141, key: 'parkingAreaImg' },
@@ -83,7 +83,6 @@ export class CrazyParkingLot extends Phaser.Scene {
         // });
 
         let camera = this.cameras.main;
-        
         camera.scrollX += (layerWidth / 2) - (settings.phrWidth / 2);
         camera.scrollY += (layerHeight / 2) - (settings.phrHeight / 2);
         camera.zoom *= settings.spacer / 32;
@@ -94,8 +93,6 @@ export class CrazyParkingLot extends Phaser.Scene {
             threshold: 0
         });
         
-        // console.log(pinch);
-
         pinch.on('drag1', function (pinch) {
             //console.log(pinch.drag1Vector);
             let drag1Vector = pinch.drag1Vector;
@@ -107,10 +104,17 @@ export class CrazyParkingLot extends Phaser.Scene {
             camera.zoom *= scaleFactor;
         }, this);
 
+        // for mouse input object movement test
+
         const redCarSprite = this.physics.add.sprite(0, 0, "redCar");
-        const redCar = new Car(redCarSprite, new Phaser.Math.Vector2(37, 113), this, this.wallLayer);
-        // redCarSprite.setDepth(2);
-        // this.physics.add.collider(redCarSprite, wallLayer);
+        const redCar = new Car(
+            redCarSprite, 
+            new Phaser.Math.Vector2(15, 123), 
+            this, 
+            this.wallLayer,
+            this.entranceExitLayer,
+            this.input
+        );
 
     } // create
 
@@ -140,10 +144,14 @@ const config: Phaser.Types.Core.GameConfig = {
             { key: 'rexGestures', plugin: GesturesPlugin, mapping: 'rexGestures' }
         ]
     },
+    fps: {
+        forceSetTimeOut: true,
+        target: 60
+    },
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 100 },
+            gravity: { y: 0 },
             debug: true
         }
         // default: 'matter',
