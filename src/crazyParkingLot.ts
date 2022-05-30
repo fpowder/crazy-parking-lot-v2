@@ -36,7 +36,8 @@ export class CrazyParkingLot extends Phaser.Scene {
         // tile layer and parking area json
         this.load.tilemapTiledJSON('map', 'tile/crazyParkingLot.json');
         // car
-        this.load.spritesheet('redCar', 'assets/car/red.png', { frameWidth: 128, frameHeight: 231 });
+        // this.load.spritesheet('redCar', 'assets/car/red.png', { frameWidth: 128, frameHeight: 231 });
+        this.load.image('redCar', 'assets/car/red.png');
         
     }
 
@@ -63,7 +64,7 @@ export class CrazyParkingLot extends Phaser.Scene {
         this.entranceExitLayer = cplMap.createLayer('entranceExitLayer', 'gridtiles', 0, 0);
 
         this.wallLayer.setCollisionByProperty({ collides: true });
-        // this.entranceExitLayer.setCollisionByProperty({ collides: true });
+        this.entranceExitLayer.setCollisionByProperty({ collides: true });
         
         // this.wallLayer.setCollisionFromCollisionGroup();
         
@@ -82,12 +83,34 @@ export class CrazyParkingLot extends Phaser.Scene {
         //     value.setScale(settings.spacer / 32, settings.spacer / 32);
         // });
 
-        let camera = this.cameras.main;
-        camera.scrollX += (layerWidth / 2) - (settings.phrWidth / 2);
+        setPinchDrag(this, layerWidth, layerHeight);
+
+        // for mouse input object movement test
+
+        // const redCarSprite = this.physics.add.sprite(0, 0, "redCar").setInteractive();
+        const redCar = new Car(
+            "redCar",
+            new Phaser.Math.Vector2(13, 123), 
+            this, 
+            this.wallLayer,
+            this.entranceExitLayer,
+            // this.input
+        );
+
+    } // create
+
+    update() {
+        
+    }
+}
+
+function setPinchDrag(scene, layerWidth, layerHeight) {
+    let camera = scene.cameras.main;
+    camera.scrollX += (layerWidth / 2) - (settings.phrWidth / 2);
         camera.scrollY += (layerHeight / 2) - (settings.phrHeight / 2);
         camera.zoom *= settings.spacer / 32;
 
-        let pinch = new Pinch(this, {
+        let pinch = new Pinch(scene, {
             enable: true,
             bounds: undefined,
             threshold: 0
@@ -102,25 +125,7 @@ export class CrazyParkingLot extends Phaser.Scene {
             //console.log(pinch.scaleFactor);
             let scaleFactor = pinch.scaleFactor;
             camera.zoom *= scaleFactor;
-        }, this);
-
-        // for mouse input object movement test
-
-        const redCarSprite = this.physics.add.sprite(0, 0, "redCar");
-        const redCar = new Car(
-            redCarSprite, 
-            new Phaser.Math.Vector2(15, 123), 
-            this, 
-            this.wallLayer,
-            this.entranceExitLayer,
-            this.input
-        );
-
-    } // create
-
-    update() {
-        
-    }
+        }, scene);
 }
 
 const config: Phaser.Types.Core.GameConfig = {
