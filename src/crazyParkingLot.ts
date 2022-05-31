@@ -56,7 +56,6 @@ export class CrazyParkingLot extends Phaser.Scene {
         //     let eachLayer = cplMap.createLayer(i, 'gridtiles', 0, 0);
         // }
 
-        // let layer = cplMap.createLayer('paTileLayer', cptiles, 0, 0);
         // layer.setScale(settings.spacer / 32);
 
         this.wallLayer = cplMap.createLayer('wallLayer', 'gridtiles', 0, 0);
@@ -107,25 +106,25 @@ export class CrazyParkingLot extends Phaser.Scene {
 function setPinchDrag(scene, layerWidth, layerHeight) {
     let camera = scene.cameras.main;
     camera.scrollX += (layerWidth / 2) - (settings.phrWidth / 2);
-        camera.scrollY += (layerHeight / 2) - (settings.phrHeight / 2);
-        camera.zoom *= settings.spacer / 32;
+    camera.scrollY += (layerHeight / 2) - (settings.phrHeight / 2);
+    camera.zoom *= settings.spacer / 32;
 
-        let pinch = new Pinch(scene, {
-            enable: true,
-            bounds: undefined,
-            threshold: 0
-        });
-        
-        pinch.on('drag1', function (pinch) {
-            //console.log(pinch.drag1Vector);
-            let drag1Vector = pinch.drag1Vector;
-            camera.scrollX -= drag1Vector.x / camera.zoom;
-            camera.scrollY -= drag1Vector.y / camera.zoom;
-        }).on('pinch', function (pinch) {
-            //console.log(pinch.scaleFactor);
-            let scaleFactor = pinch.scaleFactor;
-            camera.zoom *= scaleFactor;
-        }, scene);
+    let pinch = new Pinch(scene, {
+        enable: true,
+        bounds: undefined,
+        threshold: 0
+    });
+    
+    pinch.on('drag1', function (pinch) {
+        //console.log(pinch.drag1Vector);
+        let drag1Vector = pinch.drag1Vector;
+        camera.scrollX -= drag1Vector.x / camera.zoom;
+        camera.scrollY -= drag1Vector.y / camera.zoom;
+    }).on('pinch', function (pinch) {
+        //console.log(pinch.scaleFactor);
+        let scaleFactor = pinch.scaleFactor;
+        camera.zoom *= scaleFactor;
+    }, scene);
 }
 
 const config: Phaser.Types.Core.GameConfig = {

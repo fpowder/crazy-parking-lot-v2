@@ -26,7 +26,9 @@ export class Car {
 
         // this.sprite.setFrame(10);
 
-        scene.physics.add.collider(this.sprite, wallLayer);
+        scene.physics.add.collider(this.sprite, wallLayer, 
+            () => {console.log('collision detected!!')}
+        );
         scene.physics.add.collider(this.sprite, entranceExitLayer);
 
         this.sprite.on('pointerdown', (pointer: any) => {
@@ -42,18 +44,29 @@ export class Car {
         let testYVector = 32 * 3;
         let testVector = new Phaser.Math.Vector2(testXVector, testYVector);
 
+        // scene.physics.world.on('tilecollide', (event) => {
+        //     console.log(this.sprite);
+        // }, scene);
+
+        scene.events.on('update', () => {
+            console.log(this.sprite);
+
+        }, scene);
+
         // sprite physics move object test
-        // scene.physics.moveToObject(this.sprite, testVector, 800);
+        scene.physics.moveToObject(this.sprite, testVector, 800);
 
         // tween test
-        scene.tweens.add({
-            targets: this.sprite,
-            x: testVector.x,
-            y: testVector.y,
-            duration: 2000,
-            ease: 'Sine.easeInOut',
-            repeat: 0,
-        });
+        // scene.tweens.add({
+        //     targets: this.sprite,
+        //     x: testVector.x,
+        //     y: testVector.y,
+        //     duration: 2000,
+        //     ease: 'Sine.easeInOut',
+        //     repeat: 0,
+        // });
+
+ 
 
     }
 

@@ -69,5 +69,6 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.js', '.ts']
-    }
+    },
+    mode: 'development'
 }

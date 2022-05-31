@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon ./http-server.js",
-    "start": "concurrently \"webpack --watch --mode development\" \"nodemon ./http-server.js\"",
+    "start": "concurrently \"webpack --watch --mode development\"",
     "build": "webpack",
     "node-nightly": "node-nightly --inspect-brk ./node_modules/webpack/bin/webpack.js",
     "node-nightly-debug": "node-nightly --inspect --debug-brk crazyParkingLot.ts",
