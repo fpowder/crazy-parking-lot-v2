@@ -69,8 +69,10 @@ export class Car {
                 this.targetRealPos.y
             );
 
-            if(distance < 4) {
-                this.sprite.body.reset(this.sprite.x, this.sprite.y);
+            if(distance < 10) {
+                this.sprite.body.reset(this.targetRealPos.x, this.targetRealPos.y);
+                this.setRealPos(this.targetRealPos.x, this.targetRealPos.y);
+                this.tilePos = this.realPosToTilePos(this.targetRealPos.x, this.targetRealPos.y);
             }
 
         }, scene);
@@ -91,9 +93,19 @@ export class Car {
     }
 
     moveToTilePos(tileX, tileY): void {
+ 
         this.targetTilePos = new Phaser.Math.Vector2(tileX, tileY);
         this.targetRealPos = this.tilePosToRealPos(tileX, tileY);
-        this.scene.physics.moveToObject(this.sprite, this.targetRealPos, 800);
+
+        let distance = Phaser.Math.Distance.Between(
+            this.sprite.x, 
+            this.sprite.y, 
+            this.targetRealPos.x,
+            this.targetRealPos.y
+        );
+
+        // set speed 
+        this.scene.physics.moveToObject(this.sprite, this.targetRealPos, distance);
     }
 
     setTileCollisionEvent(): void {
@@ -114,6 +126,10 @@ export class Car {
                 this.tilePos = this.realPosToTilePos(this.sprite.x, this.sprite.y);
             }
         );
+    }
+
+    setRealPos(realX, realY): void {
+        this.realPos = new Phaser.Math.Vector2(realX, realY);
     }
 
     realPosToTilePos(realX, realY): Phaser.Math.Vector2 {
