@@ -38,6 +38,7 @@ export class CrazyParkingLot extends Phaser.Scene {
         // car
         // this.load.spritesheet('redCar', 'assets/car/red.png', { frameWidth: 128, frameHeight: 231 });
         this.load.image('redCar', 'assets/car/red.png');
+        this.load.image('blueCar', 'assets/car/blue.png');
         
     }
 
@@ -95,6 +96,18 @@ export class CrazyParkingLot extends Phaser.Scene {
             this.entranceExitLayer,
             // this.input
         );
+
+        const blueCar = new Car(
+            "blueCar",
+            new Phaser.Math.Vector2(3, 6), // tile pos
+            this, 
+            this.wallLayer,
+            this.entranceExitLayer,
+            // this.input
+        );
+
+        redCar.moveToTilePos(3, 3);
+        blueCar.moveToTilePos(13, 100);
 
     } // create
 

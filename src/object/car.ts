@@ -49,7 +49,7 @@ export class Car {
 
         // this.sprite.setFrame(10);
 
-        // this.setTileCollisionEvent();            
+        //this.setTileCollisionEvent();            
 
         this.sprite.on('pointerdown', (pointer: any) => {
             console.log(pointer);
@@ -76,7 +76,7 @@ export class Car {
         }, scene);
 
         // sprite physics move object test
-        this.moveToTilePos(3, 3);
+        // this.moveToTilePos(3, 3);
 
         // tween test
         // scene.tweens.add({
