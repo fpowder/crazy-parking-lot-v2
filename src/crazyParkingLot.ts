@@ -89,7 +89,7 @@ export class CrazyParkingLot extends Phaser.Scene {
         // const redCarSprite = this.physics.add.sprite(0, 0, "redCar").setInteractive();
         const redCar = new Car(
             "redCar",
-            new Phaser.Math.Vector2(13, 123), 
+            new Phaser.Math.Vector2(13, 123), // tile pos
             this, 
             this.wallLayer,
             this.entranceExitLayer,

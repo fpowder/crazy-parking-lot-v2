@@ -4,32 +4,52 @@ export class Car {
 
     sprite: Phaser.Physics.Arcade.Sprite;
 
+    tilePos: Phaser.Math.Vector2; // tile position
+    realPos: Phaser.Math.Vector2; // pixel position
+
+    targetTilePos: Phaser.Math.Vector2 // move target tile position
+    targetRealPos: Phaser.Math.Vector2 // move target real position
+
+    scene: Phaser.Scene;
+    wallLayer: Phaser.Tilemaps.TilemapLayer;
+    entranceExitLayer: Phaser.Tilemaps.TilemapLayer;
+
     constructor(
         carType: any,
-        private tilePos: Phaser.Math.Vector2,
+        tilePos: Phaser.Math.Vector2,
         scene: Phaser.Scene,
         wallLayer: Phaser.Tilemaps.TilemapLayer,
         entranceExitLayer: Phaser.Tilemaps.TilemapLayer,
         // input: Phaser.Input.InputPlugin
     ) {
-        const offsetX = CrazyParkingLot.TILE_SIZE;
-        const offsetY = CrazyParkingLot.TILE_SIZE;
 
-        scene.load.image(carType, 'assets/car/red.png');
+        // set scene of this car object
+        this.scene = scene;
 
+        // set layer of this car Object
+        this.wallLayer = wallLayer;
+        this.entranceExitLayer = entranceExitLayer;
+
+        // set current tile position
+        this.tilePos = tilePos;
+
+        // set current pixel position
+        // this.realPos = new Phaser.Math.Vector2(
+        //     tilePos.x * CrazyParkingLot.TILE_SIZE + (offsetX * 3 / 2),
+        //     tilePos.y * CrazyParkingLot.TILE_SIZE + (offsetY * 3 / 2)
+        // );
+        this.realPos = this.tilePosToRealPos(tilePos.x, tilePos.y);
+
+        //scene.load.image(carType, `assets/car/${carType}.png`);
         this.sprite = scene.physics.add.sprite(0, 0, carType).setInteractive();    
         this.sprite.setOrigin(0.5, 0.5);
-        this.sprite.setPosition(
-            tilePos.x * CrazyParkingLot.TILE_SIZE + (offsetX * 3 / 2),
-            tilePos.y * CrazyParkingLot.TILE_SIZE + (offsetY * 3 / 2)
-        );
+
+        // object start postion according to tile posision
+        this.sprite.setPosition(this.realPos.x, this.realPos.y);
 
         // this.sprite.setFrame(10);
 
-        scene.physics.add.collider(this.sprite, wallLayer, 
-            () => {console.log('collision detected!!')}
-        );
-        scene.physics.add.collider(this.sprite, entranceExitLayer);
+        // this.setTileCollisionEvent();            
 
         this.sprite.on('pointerdown', (pointer: any) => {
             console.log(pointer);
@@ -40,21 +60,23 @@ export class Car {
             this.sprite.clearTint();
         });
 
-        let testXVector = 32 * 3;
-        let testYVector = 32 * 3;
-        let testVector = new Phaser.Math.Vector2(testXVector, testYVector);
-
-        // scene.physics.world.on('tilecollide', (event) => {
-        //     console.log(this.sprite);
-        // }, scene);
-
         scene.events.on('update', () => {
             console.log(this.sprite);
+            let distance = Phaser.Math.Distance.Between(
+                this.sprite.x, 
+                this.sprite.y, 
+                this.targetRealPos.x,
+                this.targetRealPos.y
+            );
+
+            if(distance < 4) {
+                this.sprite.body.reset(this.sprite.x, this.sprite.y);
+            }
 
         }, scene);
 
         // sprite physics move object test
-        scene.physics.moveToObject(this.sprite, testVector, 800);
+        this.moveToTilePos(3, 3);
 
         // tween test
         // scene.tweens.add({
@@ -66,16 +88,48 @@ export class Car {
         //     repeat: 0,
         // });
 
- 
-
     }
 
-    getTilePos(): Phaser.Math.Vector2 {
-        return this.tilePos;
+    moveToTilePos(tileX, tileY): void {
+        this.targetTilePos = new Phaser.Math.Vector2(tileX, tileY);
+        this.targetRealPos = this.tilePosToRealPos(tileX, tileY);
+        this.scene.physics.moveToObject(this.sprite, this.targetRealPos, 800);
     }
 
-    setTilePos(tilePosition: Phaser.Math.Vector2): void {
-        this.tilePos = tilePosition.clone();
+    setTileCollisionEvent(): void {
+        this.scene.physics.add.collider(this.sprite, this.wallLayer, 
+            () => {
+                console.log('wall layer collision detected!!');
+                this.sprite.body.reset(this.sprite.x, this.sprite.y);
+                this.realPos = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
+                this.tilePos = this.realPosToTilePos(this.sprite.x, this.sprite.y);
+
+            }
+        );
+        this.scene.physics.add.collider(this.sprite, this.entranceExitLayer,
+            () => {
+                console.log('entrance exit layer collision deteceted!!');
+                this.sprite.body.reset(this.sprite.x, this.sprite.y);
+                this.realPos = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
+                this.tilePos = this.realPosToTilePos(this.sprite.x, this.sprite.y);
+            }
+        );
+    }
+
+    realPosToTilePos(realX, realY): Phaser.Math.Vector2 {
+        let tileSize = CrazyParkingLot.TILE_SIZE;
+        let tileX = Math.round(realX / tileSize - (tileSize * 3 / 2));
+        let tileY = Math.round(realY / tileSize - (tileSize * 3 / 2));
+
+        return new Phaser.Math.Vector2(tileX, tileY);
+    }
+
+    tilePosToRealPos(tileX, tileY): Phaser.Math.Vector2 {
+        let tileSize = CrazyParkingLot.TILE_SIZE;
+        let realX = tileX * tileSize + (tileSize * 3 / 2);
+        let realY = tileY * tileSize + (tileSize * 3 / 2);
+
+        return new Phaser.Math.Vector2(realX, realY);
     }
 
 } 
