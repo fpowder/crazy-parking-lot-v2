@@ -39,6 +39,7 @@ export class CrazyParkingLot extends Phaser.Scene {
         // this.load.spritesheet('redCar', 'assets/car/red.png', { frameWidth: 128, frameHeight: 231 });
         this.load.image('redCar', 'assets/car/red.png');
         this.load.image('blueCar', 'assets/car/blue.png');
+        this.load.image('greenCar', 'assets/car/green.png');
         
     }
 

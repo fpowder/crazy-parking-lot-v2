@@ -61,6 +61,7 @@ export class Car {
         });
 
         scene.events.on('update', () => {
+            console.log(carType);
             console.log(this.sprite);
             let distance = Phaser.Math.Distance.Between(
                 this.sprite.x, 
