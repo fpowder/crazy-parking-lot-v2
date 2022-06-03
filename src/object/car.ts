@@ -7,8 +7,8 @@ export class Car {
     tilePos: Phaser.Math.Vector2; // tile position
     realPos: Phaser.Math.Vector2; // pixel position
 
-    targetTilePos: Phaser.Math.Vector2 // move target tile position
-    targetRealPos: Phaser.Math.Vector2 // move target real position
+    targetTilePos: Phaser.Math.Vector2; // move target tile position
+    targetRealPos: Phaser.Math.Vector2; // move target real position
 
     scene: Phaser.Scene;
     wallLayer: Phaser.Tilemaps.TilemapLayer;
@@ -49,7 +49,7 @@ export class Car {
 
         // this.sprite.setFrame(10);
 
-        //this.setTileCollisionEvent();            
+        this.setTileCollisionEvent();            
 
         this.sprite.on('pointerdown', (pointer: any) => {
             console.log(pointer);
@@ -61,15 +61,20 @@ export class Car {
         });
 
         scene.events.on('update', () => {
-            console.log(carType);
-            console.log(this.sprite);
+            
             let distance = Phaser.Math.Distance.Between(
-                this.sprite.x, 
+                this.sprite.x,
                 this.sprite.y, 
                 this.targetRealPos.x,
                 this.targetRealPos.y
             );
-
+            
+            let angleDeg = (Math.atan2(this.targetRealPos.y - this.sprite.y, this.targetRealPos.x - this.sprite.x) * 180 / Math.PI);
+                
+            // console.log(this.sprite.x +' ' + this.sprite.y);
+             
+            console.log(angleDeg); 
+            // this.sprite.setAngle(angleDeg + 90);
             if(distance < 10) {
                 this.sprite.body.reset(this.targetRealPos.x, this.targetRealPos.y);
                 this.setRealPos(this.targetRealPos.x, this.targetRealPos.y);
@@ -77,9 +82,6 @@ export class Car {
             }
 
         }, scene);
-
-        // sprite physics move object test
-        // this.moveToTilePos(3, 3);
 
         // tween test
         // scene.tweens.add({
@@ -105,8 +107,11 @@ export class Car {
             this.targetRealPos.y
         );
 
+        let angleDeg = (Math.atan2(this.targetRealPos.y - this.sprite.y, this.targetRealPos.x - this.sprite.x) * 180 / Math.PI);
+        this.sprite.angle = angleDeg - 90;
+
         // set speed 
-        this.scene.physics.moveToObject(this.sprite, this.targetRealPos, distance);
+        this.scene.physics.moveToObject(this.sprite, this.targetRealPos, distance / 5);
     }
 
     setTileCollisionEvent(): void {
@@ -116,7 +121,6 @@ export class Car {
                 this.sprite.body.reset(this.sprite.x, this.sprite.y);
                 this.realPos = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
                 this.tilePos = this.realPosToTilePos(this.sprite.x, this.sprite.y);
-
             }
         );
         this.scene.physics.add.collider(this.sprite, this.entranceExitLayer,
