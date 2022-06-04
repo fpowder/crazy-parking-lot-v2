@@ -69,11 +69,8 @@ export class Car {
                 this.targetRealPos.y
             );
             
-            let angleDeg = (Math.atan2(this.targetRealPos.y - this.sprite.y, this.targetRealPos.x - this.sprite.x) * 180 / Math.PI);
-                
             // console.log(this.sprite.x +' ' + this.sprite.y);
-             
-            console.log(angleDeg); 
+            // console.log(angleDeg); 
             // this.sprite.setAngle(angleDeg + 90);
             if(distance < 10) {
                 this.sprite.body.reset(this.targetRealPos.x, this.targetRealPos.y);
