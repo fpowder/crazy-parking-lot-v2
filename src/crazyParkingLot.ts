@@ -7,6 +7,8 @@ import { Pinch } from 'phaser3-rex-plugins/plugins/gestures';
 import { settings }  from './config/settings';
 import { Car } from './object/car';
 
+import { io, Socket } from 'socket.io-client';
+
 export class CrazyParkingLot extends Phaser.Scene {
 
     static readonly TILE_SIZE = 32;
@@ -18,6 +20,8 @@ export class CrazyParkingLot extends Phaser.Scene {
     parkingAreas: any;
     entrance: any; 
     exit: any;
+
+    socket: Socket;
 
     //mouse input
     //input: ; 
@@ -86,7 +90,11 @@ export class CrazyParkingLot extends Phaser.Scene {
 
         setPinchDrag(this, layerWidth, layerHeight);
 
-        // for mouse input object movement test
+        // socket
+        this.socket = io('ws://localhost:3000', {
+            transports: ['websocket'],
+            reconnectionDelayMax: 10000
+        });
 
         // const redCarSprite = this.physics.add.sprite(0, 0, "redCar").setInteractive();
         const redCar = new Car(
@@ -123,6 +131,10 @@ function setPinchDrag(scene, layerWidth, layerHeight) {
     camera.scrollY += (layerHeight / 2) - (settings.phrHeight / 2);
     camera.zoom *= settings.spacer / 32;
 
+    let zoomLimit = camera.zoom;
+    let scrollXLimit = camera.scrollX;
+    let scrollYLimut = camera.scrollY;
+
     let pinch = new Pinch(scene, {
         enable: true,
         bounds: undefined,
@@ -138,6 +150,11 @@ function setPinchDrag(scene, layerWidth, layerHeight) {
         //console.log(pinch.scaleFactor);
         let scaleFactor = pinch.scaleFactor;
         camera.zoom *= scaleFactor;
+
+        if(camera.zoom < zoomLimit) {
+            camera.zoom  = zoomLimit;
+        }
+
     }, scene);
 }
 

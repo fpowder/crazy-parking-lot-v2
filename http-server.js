@@ -17,6 +17,11 @@ const compiler = webpack(config);
 const path = require('path');
 const fs = require('fs');
 
+io.on('connection', (socket) => {
+    console.log('connect from client');
+    console.log(socket);
+});
+
 app.use(cookieParser());
 // app.use('/js', express.static(path.join(__dirname, 'js')));
 // app.use('/', express.static(path.join(__dirname, 'dist')));
@@ -59,6 +64,6 @@ app.get(/^\/tile/, (req, res) => {
     });
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log('web view server run on port : ' + port);
 });
