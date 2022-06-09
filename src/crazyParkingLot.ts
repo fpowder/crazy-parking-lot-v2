@@ -133,7 +133,7 @@ function setPinchDrag(scene, layerWidth, layerHeight) {
 
     let zoomLimit = camera.zoom;
     let scrollXLimit = camera.scrollX;
-    let scrollYLimut = camera.scrollY;
+    let scrollYLimit = camera.scrollY;
 
     let pinch = new Pinch(scene, {
         enable: true,
@@ -146,6 +146,15 @@ function setPinchDrag(scene, layerWidth, layerHeight) {
         let drag1Vector = pinch.drag1Vector;
         camera.scrollX -= drag1Vector.x / camera.zoom;
         camera.scrollY -= drag1Vector.y / camera.zoom;
+
+        if(scrollXLimit <= camera.scrollX) {
+            camera.scrollX = scrollXLimit;
+        }
+
+        if(scrollYLimit <= camera.scrollY) {
+            camera.scrollY = scrollYLimit;
+        }
+
     }).on('pinch', function (pinch) {
         //console.log(pinch.scaleFactor);
         let scaleFactor = pinch.scaleFactor;
