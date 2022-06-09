@@ -13,7 +13,7 @@ export class Car {
     scene: Phaser.Scene;
     wallLayer: Phaser.Tilemaps.TilemapLayer;
     entranceExitLayer: Phaser.Tilemaps.TilemapLayer;
-
+                                                                        
     constructor(
         carType: any,
         tilePos: Phaser.Math.Vector2,
@@ -60,12 +60,11 @@ export class Car {
             this.sprite.clearTint();
         });
 
-        
         scene.events.on('update', () => {
             
             let distance = Phaser.Math.Distance.Between(
                 this.sprite.x,
-                this.sprite.y, 
+                this.sprite.y,
                 this.targetRealPos.x,
                 this.targetRealPos.y
             );
@@ -85,7 +84,7 @@ export class Car {
         scene.tweens.add({
             targets: this.sprite,
             alpha: { from: 0, to: 1 },
-        })
+        });
 
         // tween test
         // scene.tweens.add({
@@ -105,8 +104,8 @@ export class Car {
         this.targetRealPos = this.tilePosToRealPos(tileX, tileY);
 
         let distance = Phaser.Math.Distance.Between(
-            this.sprite.x, 
-            this.sprite.y, 
+            this.sprite.x,
+            this.sprite.y,
             this.targetRealPos.x,
             this.targetRealPos.y
         );

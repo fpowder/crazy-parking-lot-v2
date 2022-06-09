@@ -44,6 +44,11 @@ export class CrazyParkingLot extends Phaser.Scene {
         this.load.image('redCar', 'assets/car/red.png');
         this.load.image('blueCar', 'assets/car/blue.png');
         this.load.image('greenCar', 'assets/car/green.png');
+
+        // load person image (p1 ~ p4)
+        for(let i = 1; i <= 4; i++) {
+            this.load.image('p' + String(i), 'assets/person/p' + String(i) + '.png');
+        }
         
     }
 
@@ -147,11 +152,17 @@ function setPinchDrag(scene, layerWidth, layerHeight) {
         camera.scrollX -= drag1Vector.x / camera.zoom;
         camera.scrollY -= drag1Vector.y / camera.zoom;
 
-        if(scrollXLimit <= camera.scrollX) {
+        if(
+            camera.zoom <= zoomLimit && 
+            (camera.scrollX >= scrollXLimit || camera.scrollX <= scrollXLimit + settings.phrWidth)
+        ) {
             camera.scrollX = scrollXLimit;
         }
 
-        if(scrollYLimit <= camera.scrollY) {
+        if(
+            camera.zoom <= zoomLimit &&
+            (camera.scrollY >= scrollYLimit || camera.scrollY <= scrollYLimit + settings.phrHeight)
+        ) {
             camera.scrollY = scrollYLimit;
         }
 
