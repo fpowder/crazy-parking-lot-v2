@@ -107,6 +107,9 @@ export class CrazyParkingLot extends Phaser.Scene {
             // this.input
         );
 
+        console.log(redCar.uuid);
+        console.log(blueCar.uuid);
+
         redCar.moveToTilePos(3, 3);
         blueCar.moveToTilePos(13, 100);
 

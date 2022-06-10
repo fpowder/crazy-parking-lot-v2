@@ -14,6 +14,8 @@ export class Car {
     wallLayer: Phaser.Tilemaps.TilemapLayer;
     entranceExitLayer: Phaser.Tilemaps.TilemapLayer;
 
+    uuid: String;
+
     constructor(
         carType: any,
         tilePos: Phaser.Math.Vector2,
@@ -22,6 +24,8 @@ export class Car {
         entranceExitLayer: Phaser.Tilemaps.TilemapLayer,
         // input: Phaser.Input.InputPlugin
     ) {
+
+        this.uuid = this.uuidv4();
 
         // set scene of this car object
         this.scene = scene;
@@ -149,5 +153,12 @@ export class Car {
 
         return new Phaser.Math.Vector2(realX, realY);
     }
+
+    uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
 
 } 
