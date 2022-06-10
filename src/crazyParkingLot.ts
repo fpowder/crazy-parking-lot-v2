@@ -7,6 +7,8 @@ import { Pinch } from 'phaser3-rex-plugins/plugins/gestures';
 import { settings }  from './config/settings';
 import { Car } from './object/car';
 
+import { io, Socket } from 'socket.io-client';
+
 export class CrazyParkingLot extends Phaser.Scene {
 
     static readonly TILE_SIZE = 32;
@@ -18,6 +20,8 @@ export class CrazyParkingLot extends Phaser.Scene {
     parkingAreas: any;
     entrance: any; 
     exit: any;
+
+    socket: Socket;
 
     //mouse input
     //input: ; 
@@ -40,6 +44,11 @@ export class CrazyParkingLot extends Phaser.Scene {
         this.load.image('redCar', 'assets/car/red.png');
         this.load.image('blueCar', 'assets/car/blue.png');
         this.load.image('greenCar', 'assets/car/green.png');
+
+        // load person image (p1 ~ p4)
+        for(let i = 1; i <= 4; i++) {
+            this.load.image('p' + String(i), 'assets/person/p' + String(i) + '.png');
+        }
         
     }
 
@@ -86,7 +95,11 @@ export class CrazyParkingLot extends Phaser.Scene {
 
         setPinchDrag(this, layerWidth, layerHeight);
 
-        // for mouse input object movement test
+        // socket
+        this.socket = io('ws://localhost:3000', {
+            transports: ['websocket'],
+            reconnectionDelayMax: 10000
+        });
 
         // const redCarSprite = this.physics.add.sprite(0, 0, "redCar").setInteractive();
         const redCar = new Car(
@@ -126,6 +139,10 @@ function setPinchDrag(scene, layerWidth, layerHeight) {
     camera.scrollY += (layerHeight / 2) - (settings.phrHeight / 2);
     camera.zoom *= settings.spacer / 32;
 
+    let zoomLimit = camera.zoom;
+    let scrollXLimit = camera.scrollX;
+    let scrollYLimit = camera.scrollY;
+
     let pinch = new Pinch(scene, {
         enable: true,
         bounds: undefined,
@@ -137,10 +154,30 @@ function setPinchDrag(scene, layerWidth, layerHeight) {
         let drag1Vector = pinch.drag1Vector;
         camera.scrollX -= drag1Vector.x / camera.zoom;
         camera.scrollY -= drag1Vector.y / camera.zoom;
+
+        if(
+            camera.zoom <= zoomLimit && 
+            (camera.scrollX >= scrollXLimit || camera.scrollX <= scrollXLimit + settings.phrWidth)
+        ) {
+            camera.scrollX = scrollXLimit;
+        }
+
+        if(
+            camera.zoom <= zoomLimit &&
+            (camera.scrollY >= scrollYLimit || camera.scrollY <= scrollYLimit + settings.phrHeight)
+        ) {
+            camera.scrollY = scrollYLimit;
+        }
+
     }).on('pinch', function (pinch) {
         //console.log(pinch.scaleFactor);
         let scaleFactor = pinch.scaleFactor;
         camera.zoom *= scaleFactor;
+
+        if(camera.zoom < zoomLimit) {
+            camera.zoom  = zoomLimit;
+        }
+
     }, scene);
 }
 

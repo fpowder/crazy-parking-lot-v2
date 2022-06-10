@@ -4,7 +4,9 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
-const io = new Server(server);
+const io = new Server(server, {
+    pingTimeout: 60000,
+});
 const port = 3000;
 
 const webpack = require('webpack');
@@ -14,6 +16,11 @@ const compiler = webpack(config);
 
 const path = require('path');
 const fs = require('fs');
+
+io.on('connection', (socket) => {
+    console.log('connect from client');
+    console.log(socket);
+});
 
 app.use(cookieParser());
 // app.use('/js', express.static(path.join(__dirname, 'js')));
@@ -57,6 +64,6 @@ app.get(/^\/tile/, (req, res) => {
     });
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log('web view server run on port : ' + port);
 });
