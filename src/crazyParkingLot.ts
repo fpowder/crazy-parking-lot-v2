@@ -101,6 +101,10 @@ export class CrazyParkingLot extends Phaser.Scene {
             reconnectionDelayMax: 10000
         });
 
+        this.socket.on('currentCpl', () => {
+
+        });
+
         // const redCarSprite = this.physics.add.sprite(0, 0, "redCar").setInteractive();
         const redCar = new Car(
             "redCar",
