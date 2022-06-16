@@ -43,11 +43,12 @@ export class Car {
         //     tilePos.y * CrazyParkingLot.TILE_SIZE + (offsetY * 3 / 2)
         // );
         this.realPos = this.tilePosToRealPos(tilePos.x, tilePos.y);
+        this.targetRealPos = new Phaser.Math.Vector2(this.realPos.x, this.realPos.y);
 
         //scene.load.image(carType, `assets/car/${carType}.png`);
         this.sprite = scene.physics.add.sprite(0, 0, carType).setInteractive();    
         this.sprite.setOrigin(0.5, 0.5);
-
+        
         // object start postion according to tile posision
         this.sprite.setPosition(this.realPos.x, this.realPos.y);
 
@@ -118,7 +119,7 @@ export class Car {
         this.sprite.angle = angleDeg - 90;
 
         // set speed 
-        this.scene.physics.moveToObject(this.sprite, this.targetRealPos, distance / 5);
+        this.scene.physics.moveToObject(this.sprite, this.targetRealPos, distance);
     }
 
     setTileCollisionEvent(): void {
