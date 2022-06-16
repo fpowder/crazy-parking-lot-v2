@@ -134,7 +134,7 @@ export class CrazyParkingLot extends Phaser.Scene {
         // blueCar.moveToTilePos(13, 100);
         
         setControlPanel(this);
-
+        
     } // create
 
     update() {
@@ -146,24 +146,27 @@ function setControlPanel(scene) {
 
     // control panel 
     let inputStyle = 
-    `width: 90%; 
-    padding: 12px 20px; 
-    margin: 10px; 
-    display: inline-block; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
-    box-sizing: border-box;`;
+        `width: 90%;
+        height: 60px;
+        font-size: 48px;
+        padding: 12px 20px; 
+        margin: 10px; 
+        display: inline-block; 
+        border: 1px solid #ccc; 
+        border-radius: 4px; 
+        box-sizing: border-box;`;
 
     let containerDivStyle = 
         `background-color: rgba(0,255,0,0.2); 
         width: 600px; 
-        height: 400px; 
+        height: 470px; 
         font: 48px Arial; 
         font-weight: bold;`;
 
     let btnStyle = 
         `width: 100%;
         background-color: #2f77ed;
+        font-size: 48px;
         color: white;
         padding: 14px 20px;
         margin: 8px 0;
