@@ -4,7 +4,7 @@ import Phaser from 'phaser';
 import GesturesPlugin from 'phaser3-rex-plugins/plugins/gestures-plugin';
 import { Pinch } from 'phaser3-rex-plugins/plugins/gestures';
 
-import { settings }  from './config/settings';
+import { settings, createPersonsTilePos }  from './config/settings';
 import { Car } from './object/car';
 
 import { io, Socket } from 'socket.io-client';
@@ -129,6 +129,9 @@ export class CrazyParkingLot extends Phaser.Scene {
 
         this.registry.set('redCar', redCar);
         this.registry.set('blueCar', blueCar);
+
+        // create random 4 persons
+        console.log(createPersonsTilePos());
 
         // redCar.moveToTilePos(3, 3);
         // blueCar.moveToTilePos(13, 100);

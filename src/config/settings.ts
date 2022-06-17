@@ -71,14 +71,45 @@ export const settings = (() => {
 // 4 person position create function
 export const createPersonsTilePos = () => {
     let result = [];
-    
+
+    for(let i = 0; i < 4; i++) {
+        result.push(getRandomPersonPos());
+    }
+
+    return result;
 
 }
 
-function getRandomInt(min, max) {
+function getRandomPersonPos() {
+    let randomX: number = getRandomInt(1, 59);
+    let randomY: number = getRandomInt(1, 143);
+
+    let rangeClear: boolean = true;
+
+    let availableYRange = wallTileRange[String(randomX)];
+    for(let eachRange of availableYRange) {
+        if(checkInRange(eachRange[0], eachRange[1], randomY)) {
+            rangeClear = false;
+            return getRandomPersonPos();
+        } 
+    }
+
+    if(rangeClear) {
+        return [randomX, randomY];
+    } 
+    
+}
+
+function getRandomInt(min: number, max: number): number {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.ceil(Math.random() * (max - min)) + min;
+
+    let randomInt: number = Math.ceil(Math.random() * (max - min)) + min;
+    return randomInt;
+}
+
+function checkInRange(low :number, high :number, value :number):boolean {
+    return value >= low && value <= high;
 }
 
 const wallTileRange = {
