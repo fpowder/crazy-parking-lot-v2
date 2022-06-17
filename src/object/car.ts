@@ -46,7 +46,7 @@ export class Car {
         this.targetRealPos = new Phaser.Math.Vector2(this.realPos.x, this.realPos.y);
 
         //scene.load.image(carType, `assets/car/${carType}.png`);
-        this.sprite = scene.physics.add.sprite(0, 0, carType).setInteractive();    
+        this.sprite = scene.physics.add.sprite(0, 0, carType);//.setInteractive(); neccasary?    
         this.sprite.setOrigin(0.5, 0.5);
         
         // object start postion according to tile posision
