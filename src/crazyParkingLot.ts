@@ -106,29 +106,27 @@ export class CrazyParkingLot extends Phaser.Scene {
         });
 
         // const redCarSprite = this.physics.add.sprite(0, 0, "redCar").setInteractive();
-        const redCar = new Car(
-            "redCar",
-            new Phaser.Math.Vector2(13, 123), // tile pos
-            this, 
-            this.wallLayer,
-            this.entranceExitLayer,
-            // this.input
-        );
+        // const redCar = new Car(
+        //     "redCar",
+        //     new Phaser.Math.Vector2(13, 123), // tile pos
+        //     this, 
+        //     this.wallLayer,
+        //     this.entranceExitLayer,
+        // );
 
-        const blueCar = new Car(
-            "blueCar",
-            new Phaser.Math.Vector2(3, 6), // tile pos
-            this, 
-            this.wallLayer,
-            this.entranceExitLayer,
-            // this.input
-        );
+        // const blueCar = new Car(
+        //     "blueCar",
+        //     new Phaser.Math.Vector2(3, 6), // tile pos
+        //     this, 
+        //     this.wallLayer,
+        //     this.entranceExitLayer,
+        // );
 
-        console.log(redCar.uuid);
-        console.log(blueCar.uuid);
+        // console.log(redCar.uuid);
+        // console.log(blueCar.uuid);
 
-        this.registry.set('redCar', redCar);
-        this.registry.set('blueCar', blueCar);
+        // this.registry.set('redCar', redCar);
+        // this.registry.set('blueCar', blueCar);
 
         // redCar.moveToTilePos(3, 3);
         // blueCar.moveToTilePos(13, 100);

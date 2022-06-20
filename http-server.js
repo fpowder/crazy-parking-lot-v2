@@ -17,6 +17,9 @@ const compiler = webpack(config);
 const path = require('path');
 const fs = require('fs');
 
+const currentCpl = require('./cplStatusGen/initRandomCpl')();
+console.log(currentCpl);
+
 io.on('connection', (socket) => {
     console.log('connect from client');
     console.log(socket);

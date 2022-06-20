@@ -10,7 +10,7 @@ module.exports = function getRandomPos() {
     for(let eachRange of availableYRange) {
         if(checkInRange(eachRange[0], eachRange[1], randomY)) {
             rangeClear = false;
-            return getRandomPersonPos();
+            return getRandomPos();
         } 
     }
 
