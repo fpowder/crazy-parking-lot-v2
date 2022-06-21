@@ -113,11 +113,11 @@ export class CrazyParkingLot extends Phaser.Scene {
                     new Car(
                         eachCar.carType,
                         new Phaser.Math.Vector2(eachCar.tilePos.x, eachCar.tilePos.y),
-                        this,
+                        this, //Phaser scene
                         this.wallLayer,
                         this.entranceExitLayer,
                         uuid
-                    )
+                    ).setInitAngle();
                 }
             }
 
@@ -128,30 +128,13 @@ export class CrazyParkingLot extends Phaser.Scene {
                     new Person(
                         eachPerson.personType,
                         new Phaser.Math.Vector2(eachPerson.tilePos.x, eachPerson.tilePos.y),
-                        this,
+                        this, //Phaser scene
                         uuid
-                    )
+                    ).setInitAngle();
                 }
             }
 
         });
-
-        // const redCarSprite = this.physics.add.sprite(0, 0, "redCar").setInteractive();
-        // const redCar = new Car(
-        //     "redCar",
-        //     new Phaser.Math.Vector2(13, 123), // tile pos
-        //     this, 
-        //     this.wallLayer,
-        //     this.entranceExitLayer,
-        // );
-
-        // const blueCar = new Car(
-        //     "blueCar",
-        //     new Phaser.Math.Vector2(3, 6), // tile pos
-        //     this, 
-        //     this.wallLayer,
-        //     this.entranceExitLayer,
-        // );
 
         // console.log(redCar.uuid);
         // console.log(blueCar.uuid);
@@ -319,7 +302,7 @@ function setControlPanel(scene) {
 
     let targetLabel = document.createElement('label');
     targetLabel.setAttribute('for', 'target');
-    targetLabel.textContent = 'Car Target';
+    targetLabel.textContent = 'Car Target UUID';
 
     let tileXLabel = document.createElement('label');
     tileXLabel.setAttribute('for', 'tileX');

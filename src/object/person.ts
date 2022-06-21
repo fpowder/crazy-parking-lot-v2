@@ -38,4 +38,8 @@ export class Person {
         return new Phaser.Math.Vector2(realX, realY);
     }
 
+    setInitAngle(): void {
+        this.sprite.angle = Phaser.Math.Angle.RandomDegrees();
+    }
+
 }

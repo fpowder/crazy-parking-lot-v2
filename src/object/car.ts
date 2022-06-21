@@ -162,4 +162,9 @@ export class Car {
         return new Phaser.Math.Vector2(realX, realY);
     }
 
+    setInitAngle(): void {
+        console.log(Phaser.Math.Angle.RandomDegrees());
+        this.sprite.angle = Phaser.Math.Angle.RandomDegrees();
+    }
+
 } 
