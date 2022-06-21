@@ -104,7 +104,7 @@ export class Car {
 
     }
 
-    moveToTilePos(tileX, tileY): void {
+    moveToTilePos(tileX: number, tileY: number): void {
  
         this.targetTilePos = new Phaser.Math.Vector2(tileX, tileY);
         this.targetRealPos = this.tilePosToRealPos(tileX, tileY);
@@ -142,11 +142,11 @@ export class Car {
         );
     }
 
-    setRealPos(realX, realY): void {
+    setRealPos(realX: number, realY: number): void {
         this.realPos = new Phaser.Math.Vector2(realX, realY);
     }
 
-    realPosToTilePos(realX, realY): Phaser.Math.Vector2 {
+    realPosToTilePos(realX: number, realY: number): Phaser.Math.Vector2 {
         let tileSize = CrazyParkingLot.TILE_SIZE;
         let tileX = Math.round(realX / tileSize - (tileSize * 3 / 2));
         let tileY = Math.round(realY / tileSize - (tileSize * 3 / 2));
@@ -154,7 +154,7 @@ export class Car {
         return new Phaser.Math.Vector2(tileX, tileY);
     }
 
-    tilePosToRealPos(tileX, tileY): Phaser.Math.Vector2 {
+    tilePosToRealPos(tileX: number, tileY: number): Phaser.Math.Vector2 {
         let tileSize = CrazyParkingLot.TILE_SIZE;
         let realX = tileX * tileSize + (tileSize * 3 / 2);
         let realY = tileY * tileSize + (tileSize * 3 / 2);

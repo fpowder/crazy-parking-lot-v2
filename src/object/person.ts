@@ -26,11 +26,10 @@ export class Person {
         this.sprite.setOrigin(0.5, 0.5);
 
         this.realPos = this.tilePosToRealPos(tilePos.x, tilePos.y);
-
         this.sprite.setPosition(this.realPos.x, this.realPos.y);
     }
 
-    tilePosToRealPos(tileX, tileY): Phaser.Math.Vector2 {
+    tilePosToRealPos(tileX: number, tileY: number): Phaser.Math.Vector2 {
         let tileSize = CrazyParkingLot.TILE_SIZE;
         let realX = tileX * tileSize + (tileSize * 3 / 2);
         let realY = tileY * tileSize + (tileSize * 3 / 2);
