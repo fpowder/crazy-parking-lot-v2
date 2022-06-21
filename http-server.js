@@ -26,6 +26,12 @@ io.on('connection', (socket) => {
 
     socket.emit('currentCpl', currentCpl);
 
+    socket.on('carMoved', (movedData) => {
+        console.log('carMoved!!');
+        console.log(movedData);
+        socket.broadcast.emit('carMoveComplete', movedData);
+    });
+
 });
 
 app.use(cookieParser());

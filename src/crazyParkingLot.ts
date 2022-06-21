@@ -8,7 +8,8 @@ import { settings }  from './config/settings';
 import { Car } from './object/car';
 import { Person } from './object/person';
 
-import { io, Socket } from 'socket.io-client';
+import { Socket } from 'socket.io-client';
+import { socketClient } from './singleton/socket';
 
 export class CrazyParkingLot extends Phaser.Scene {
 
@@ -22,7 +23,7 @@ export class CrazyParkingLot extends Phaser.Scene {
     entrance: any; 
     exit: any;
 
-    socket: Socket;
+    socketClient: Socket;
 
     //mouse input
     //input: ; 
@@ -97,27 +98,22 @@ export class CrazyParkingLot extends Phaser.Scene {
         setPinchDrag(this, layerWidth, layerHeight);
 
         // socket
-        this.socket = io('ws://localhost:3000', {
-            transports: ['websocket'],
-            reconnectionDelayMax: 10000
-        });
-
-        this.socket.on('currentCpl', (cplStatus) => {
-
+        socketClient.on('currentCpl', (cplStatus) => {
             console.log(cplStatus);
-
             if(cplStatus.cars) {
                 let cars = cplStatus.cars;
                 for(let uuid in cars) {
                     let eachCar = cars[uuid];
-                    new Car(
+                    let car = new Car(
                         eachCar.carType,
                         new Phaser.Math.Vector2(eachCar.tilePos.x, eachCar.tilePos.y),
                         this, //Phaser scene
                         this.wallLayer,
                         this.entranceExitLayer,
                         uuid
-                    ).setInitAngle();
+                    );
+                    car.setInitAngle();
+                    this.registry.set(uuid, car);
                 }
             }
 
@@ -125,15 +121,27 @@ export class CrazyParkingLot extends Phaser.Scene {
                 let persons = cplStatus.persons;
                 for(let uuid in persons) {
                     let eachPerson = persons[uuid];
-                    new Person(
+                    let person = new Person(
                         eachPerson.personType,
                         new Phaser.Math.Vector2(eachPerson.tilePos.x, eachPerson.tilePos.y),
                         this, //Phaser scene
                         uuid
-                    ).setInitAngle();
+                    );
+                    person.setInitAngle();
+                    this.registry.set(uuid, person);
                 }
             }
+        });
 
+        socketClient.on('carMoveComplete', (movedData) => {
+            console.log('on carMoveComplete');
+            console.log(movedData);
+            let movedCar: Car = this.registry.get(movedData.uuid);
+            movedCar.setPosition(
+                movedData.tilePos.x,
+                movedData.tilePos.y,
+                movedData.angle
+            )
         });
 
         // console.log(redCar.uuid);

@@ -1,4 +1,5 @@
 import { CrazyParkingLot } from '../crazyParkingLot';
+import { socketClient } from '../singleton/socket';
 
 export class Car {
 
@@ -15,6 +16,8 @@ export class Car {
     entranceExitLayer: Phaser.Tilemaps.TilemapLayer;
 
     uuid: String;
+    moving: boolean;
+    stop: boolean;
 
     constructor(
         carType: any,
@@ -37,6 +40,10 @@ export class Car {
 
         // set current tile position
         this.tilePos = tilePos;
+
+        // set move complete
+        this.moving = false; 
+        this.stop = true;
 
         // set current pixel position
         // this.realPos = new Phaser.Math.Vector2(
@@ -78,10 +85,24 @@ export class Car {
             // console.log(this.sprite.x +' ' + this.sprite.y);
             // console.log(angleDeg); 
             // this.sprite.setAngle(angleDeg + 90);
-            if(distance < 10) {
+            if(distance < 10 && this.moving === true) {
+
                 this.sprite.body.reset(this.targetRealPos.x, this.targetRealPos.y);
                 this.setRealPos(this.targetRealPos.x, this.targetRealPos.y);
                 this.tilePos = this.realPosToTilePos(this.targetRealPos.x, this.targetRealPos.y);
+
+                this.moving = false;
+                this.stop = true;
+
+                socketClient.emit('carMoved', {
+                    uuid: this.uuid,
+                    tilePos: {
+                        x: this.tilePos.x,
+                        y: this.tilePos.y
+                    },
+                    angle: this.sprite.angle
+                });
+
             }
 
         }, scene);
@@ -104,8 +125,17 @@ export class Car {
 
     }
 
+    setPosition(tileX: number, tileY: number, angle: number): void {
+        this.tilePos = new Phaser.Math.Vector2(tileX, tileY);
+        this.realPos = this.tilePosToRealPos(tileX, tileY);
+        this.sprite.angle = angle;
+        this.moving = false;
+        this.stop = true;
+    }
+
     moveToTilePos(tileX: number, tileY: number): void {
- 
+        this.moving = true;
+        this.stop = false;
         this.targetTilePos = new Phaser.Math.Vector2(tileX, tileY);
         this.targetRealPos = this.tilePosToRealPos(tileX, tileY);
 
@@ -163,7 +193,6 @@ export class Car {
     }
 
     setInitAngle(): void {
-        console.log(Phaser.Math.Angle.RandomDegrees());
         this.sprite.angle = Phaser.Math.Angle.RandomDegrees();
     }
 

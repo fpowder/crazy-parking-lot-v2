@@ -1,4 +1,6 @@
 import { CrazyParkingLot } from '../crazyParkingLot';
+import { socketClient } from '../singleton/socket';
+
 export class Person {
 
     sprite: Phaser.Physics.Arcade.Sprite;
