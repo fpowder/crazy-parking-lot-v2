@@ -23,6 +23,9 @@ console.log(currentCpl);
 io.on('connection', (socket) => {
     console.log('connect from client');
     console.log(socket);
+
+    socket.emit('currentCpl', currentCpl);
+
 });
 
 app.use(cookieParser());

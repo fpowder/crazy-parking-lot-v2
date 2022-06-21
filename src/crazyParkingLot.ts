@@ -6,6 +6,7 @@ import { Pinch } from 'phaser3-rex-plugins/plugins/gestures';
 
 import { settings }  from './config/settings';
 import { Car } from './object/car';
+import { Person } from './object/person';
 
 import { io, Socket } from 'socket.io-client';
 
@@ -101,7 +102,37 @@ export class CrazyParkingLot extends Phaser.Scene {
             reconnectionDelayMax: 10000
         });
 
-        this.socket.on('currentCpl', () => {
+        this.socket.on('currentCpl', (cplStatus) => {
+
+            console.log(cplStatus);
+
+            if(cplStatus.cars) {
+                let cars = cplStatus.cars;
+                for(let uuid in cars) {
+                    let eachCar = cars[uuid];
+                    new Car(
+                        eachCar.carType,
+                        new Phaser.Math.Vector2(eachCar.tilePos.x, eachCar.tilePos.y),
+                        this,
+                        this.wallLayer,
+                        this.entranceExitLayer,
+                        uuid
+                    )
+                }
+            }
+
+            if(cplStatus.persons) {
+                let persons = cplStatus.persons;
+                for(let uuid in persons) {
+                    let eachPerson = persons[uuid];
+                    new Person(
+                        eachPerson.personType,
+                        new Phaser.Math.Vector2(eachPerson.tilePos.x, eachPerson.tilePos.y),
+                        this,
+                        uuid
+                    )
+                }
+            }
 
         });
 

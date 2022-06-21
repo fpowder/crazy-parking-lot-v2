@@ -11,7 +11,7 @@ function getRandomColor() {
 function createCarsTilePos() {
     let result = [];
     for(let i = 0; i < 3; i++) {
-        result.push(getRandomPos);
+        result.push(getRandomPos());
     }
 
     return result;
