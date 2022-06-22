@@ -8,8 +8,7 @@ import { settings }  from './config/settings';
 import { Car } from './object/car';
 import { Person } from './object/person';
 
-import { Socket } from 'socket.io-client';
-import { socketClient } from './singleton/socket';
+import { io, Socket } from 'socket.io-client';
 
 export class CrazyParkingLot extends Phaser.Scene {
 
@@ -32,6 +31,7 @@ export class CrazyParkingLot extends Phaser.Scene {
         super({
             key: 'crazyParkingLot'
         });
+        // this.socketClient = socketClient;
     }
 
     preload() {
@@ -97,8 +97,13 @@ export class CrazyParkingLot extends Phaser.Scene {
 
         setPinchDrag(this, layerWidth, layerHeight);
 
+        this.socketClient = io('ws://localhost:3000', {
+            transports: ['websocket'],
+            reconnectionDelayMax: 10000
+        });
+
         // socket
-        socketClient.on('currentCpl', (cplStatus) => {
+        this.socketClient.on('currentCpl', (cplStatus) => {
             console.log(cplStatus);
             if(cplStatus.cars) {
                 let cars = cplStatus.cars;
@@ -133,7 +138,7 @@ export class CrazyParkingLot extends Phaser.Scene {
             }
         });
 
-        socketClient.on('carMoveComplete', (movedData) => {
+        this.socketClient.on('carMoveComplete', (movedData) => {
             console.log('on carMoveComplete');
             console.log(movedData);
             let movedCar: Car = this.registry.get(movedData.uuid);
@@ -143,6 +148,8 @@ export class CrazyParkingLot extends Phaser.Scene {
                 movedData.angle
             )
         });
+
+        this.registry.set('socketClient', this.socketClient);
 
         // console.log(redCar.uuid);
         // console.log(blueCar.uuid);

@@ -1,5 +1,5 @@
 import { CrazyParkingLot } from '../crazyParkingLot';
-import { socketClient } from '../singleton/socket';
+import { Socket } from 'socket.io-client';
 
 export class Car {
 
@@ -18,6 +18,8 @@ export class Car {
     uuid: String;
     moving: boolean;
     stop: boolean;
+
+    socketClient: Socket;
 
     constructor(
         carType: any,
@@ -45,6 +47,9 @@ export class Car {
         this.moving = false; 
         this.stop = true;
 
+        // socketClient set
+        this.socketClient = scene.registry.get('socketClient');
+        
         // set current pixel position
         // this.realPos = new Phaser.Math.Vector2(
         //     tilePos.x * CrazyParkingLot.TILE_SIZE + (offsetX * 3 / 2),
@@ -94,7 +99,7 @@ export class Car {
                 this.moving = false;
                 this.stop = true;
 
-                socketClient.emit('carMoved', {
+                this.socketClient.emit('carMoved', {
                     uuid: this.uuid,
                     tilePos: {
                         x: this.tilePos.x,
@@ -102,7 +107,8 @@ export class Car {
                     },
                     angle: this.sprite.angle
                 });
-
+                console.log(this.sprite);
+                console.log(this.tilePos);
             }
 
         }, scene);
