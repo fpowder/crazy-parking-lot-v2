@@ -30,6 +30,9 @@ io.on('connection', (socket) => {
         console.log('carMoved!!');
         console.log(movedData);
         socket.broadcast.emit('carMoveComplete', movedData);
+
+        // update currentCpl
+
     });
 
 });
