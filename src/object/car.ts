@@ -66,7 +66,6 @@ export class Car {
         this.sprite.setPosition(this.realPos.x, this.realPos.y);
 
         // this.sprite.setFrame(10);
-
         this.setTileCollisionEvent();            
 
         this.sprite.on('pointerdown', (pointer: any) => {
@@ -87,26 +86,27 @@ export class Car {
                 this.targetRealPos.y
             );
             
-            // console.log(this.sprite.x +' ' + this.sprite.y);
-            // console.log(angleDeg); 
-            // this.sprite.setAngle(angleDeg + 90);
+            // 10 pixel 아래일경우 원하는 지정 목표 타일 좌표에 도착한것으로 간주
             if(distance < 10 && this.moving === true) {
 
                 this.sprite.body.reset(this.targetRealPos.x, this.targetRealPos.y);
                 this.setRealPos(this.targetRealPos.x, this.targetRealPos.y);
-                this.tilePos = this.realPosToTilePos(this.targetRealPos.x, this.targetRealPos.y);
+                //this.tilePos = this.realPosToTilePos(this.targetRealPos.x, this.targetRealPos.y);
+                this.tilePos = this.targetTilePos;
 
                 this.moving = false;
                 this.stop = true;
 
-                this.socketClient.emit('carMoved', {
-                    uuid: this.uuid,
-                    tilePos: {
-                        x: this.tilePos.x,
-                        y: this.tilePos.y
-                    },
-                    angle: this.sprite.angle
-                });
+                this.carMovedEmit();
+
+                // this.socketClient.emit('carMoved', {
+                //     uuid: this.uuid,
+                //     tilePos: {
+                //         x: this.tilePos.x,
+                //         y: this.tilePos.y
+                //     },
+                //     angle: this.sprite.angle
+                // });
                 console.log(this.sprite);
                 console.log(this.tilePos);
             }
@@ -131,10 +131,24 @@ export class Car {
 
     }
 
+    carMovedEmit() {
+        this.socketClient.emit('carMoved', {
+            uuid: this.uuid,
+            tilePos: {
+                x: this.tilePos.x,
+                y: this.tilePos.y
+            },
+            angle: this.sprite.angle
+        });
+    }
+
     setPosition(tileX: number, tileY: number, angle: number): void {
         this.tilePos = new Phaser.Math.Vector2(tileX, tileY);
         this.realPos = this.tilePosToRealPos(tileX, tileY);
+        
+        this.sprite.body.reset(this.realPos.x, this.realPos.y);
         this.sprite.angle = angle;
+        
         this.moving = false;
         this.stop = true;
     }
@@ -161,19 +175,21 @@ export class Car {
 
     setTileCollisionEvent(): void {
         this.scene.physics.add.collider(this.sprite, this.wallLayer, 
-            () => {
+            async () => {
                 console.log('wall layer collision detected!!');
-                this.sprite.body.reset(this.sprite.x, this.sprite.y);
-                this.realPos = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
-                this.tilePos = this.realPosToTilePos(this.sprite.x, this.sprite.y);
+                await this.sprite.body.reset(this.sprite.x, this.sprite.y);
+                this.realPos = await new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
+                this.tilePos = await this.realPosToTilePos(this.sprite.x, this.sprite.y);
+                await this.carMovedEmit();
             }
         );
         this.scene.physics.add.collider(this.sprite, this.entranceExitLayer,
-            () => {
+            async () => {
                 console.log('entrance exit layer collision deteceted!!');
-                this.sprite.body.reset(this.sprite.x, this.sprite.y);
-                this.realPos = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
-                this.tilePos = this.realPosToTilePos(this.sprite.x, this.sprite.y);
+                await this.sprite.body.reset(this.sprite.x, this.sprite.y);
+                this.realPos = await new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
+                this.tilePos = await this.realPosToTilePos(this.sprite.x, this.sprite.y);
+                await this.carMovedEmit();
             }
         );
     }
@@ -184,8 +200,8 @@ export class Car {
 
     realPosToTilePos(realX: number, realY: number): Phaser.Math.Vector2 {
         let tileSize = CrazyParkingLot.TILE_SIZE;
-        let tileX = Math.round(realX / tileSize - (tileSize * 3 / 2));
-        let tileY = Math.round(realY / tileSize - (tileSize * 3 / 2));
+        let tileX = Math.ceil(realX / tileSize -  1);
+        let tileY = Math.ceil(realY / tileSize - 1);
 
         return new Phaser.Math.Vector2(tileX, tileY);
     }

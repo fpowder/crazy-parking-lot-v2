@@ -1,5 +1,4 @@
 import { CrazyParkingLot } from '../crazyParkingLot';
-import { socketClient } from '../singleton/socket';
 
 export class Person {
 
@@ -29,6 +28,7 @@ export class Person {
 
         this.realPos = this.tilePosToRealPos(tilePos.x, tilePos.y);
         this.sprite.setPosition(this.realPos.x, this.realPos.y);
+
     }
 
     tilePosToRealPos(tileX: number, tileY: number): Phaser.Math.Vector2 {
