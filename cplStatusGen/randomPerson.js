@@ -1,5 +1,6 @@
 const getRandomPos = require('./randomPos');
-const uuidv4 = require('./uuid');
+const uuidv4 = require('./utils').uuidv4;
+const randomDegrees = require('./utils').randomDegrees;
 const persons = [ 'p1', 'p2', 'p3', 'p4' ];
 
 function getRandomPersonType() {
@@ -30,6 +31,7 @@ module.exports = function createRandomPersons() {
         let eachPerson = {
             objectType: 'person',
             personType: getRandomPersonType(),
+            angle: randomDegrees(),
             tilePos: {
                 x: eachPos[0],
                 y: eachPos[1]

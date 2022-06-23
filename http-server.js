@@ -33,6 +33,7 @@ io.on('connection', (socket) => {
 
         // update currentCpl
         currentCpl.cars[movedData.uuid].tilePos = movedData.tilePos;
+        currentCpl.cars[movedData.uuid].angle = movedData.angle;
     });
 
 });

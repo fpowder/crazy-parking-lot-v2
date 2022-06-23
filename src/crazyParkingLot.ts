@@ -117,7 +117,7 @@ export class CrazyParkingLot extends Phaser.Scene {
                         this.entranceExitLayer,
                         uuid
                     );
-                    car.setInitAngle();
+                    car.sprite.angle = eachCar.angle;
                     this.registry.set(uuid, car);
                 }
             }
@@ -132,7 +132,7 @@ export class CrazyParkingLot extends Phaser.Scene {
                         this, //Phaser scene
                         uuid
                     );
-                    person.setInitAngle();
+                    person.sprite.angle = eachPerson.angle;
                     this.registry.set(uuid, person);
                 }
             }
