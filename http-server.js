@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('carMoveComplete', movedData);
 
         // update currentCpl
-
+        currentCpl.cars[movedData.uuid].tilePos = movedData.tilePos;
     });
 
 });

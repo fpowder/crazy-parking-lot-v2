@@ -9,7 +9,7 @@ export class Car {
     realPos: Phaser.Math.Vector2; // pixel position
 
     targetTilePos: Phaser.Math.Vector2; // move target tile position
-    targetRealPos: Phaser.Math.Vector2; // move target real position
+    targetPixPos: Phaser.Math.Vector2; // move target real position
 
     scene: Phaser.Scene;
     wallLayer: Phaser.Tilemaps.TilemapLayer;
@@ -55,8 +55,8 @@ export class Car {
         //     tilePos.x * CrazyParkingLot.TILE_SIZE + (offsetX * 3 / 2),
         //     tilePos.y * CrazyParkingLot.TILE_SIZE + (offsetY * 3 / 2)
         // );
-        this.realPos = this.tilePosToRealPos(tilePos.x, tilePos.y);
-        this.targetRealPos = new Phaser.Math.Vector2(this.realPos.x, this.realPos.y);
+        this.realPos = this.tilePosToPixPos(tilePos.x, tilePos.y);
+        this.targetPixPos = new Phaser.Math.Vector2(this.realPos.x, this.realPos.y);
 
         //scene.load.image(carType, `assets/car/${carType}.png`);
         this.sprite = scene.physics.add.sprite(0, 0, carType + 'Car');//.setInteractive(); neccasary?    
@@ -82,16 +82,16 @@ export class Car {
             let distance = Phaser.Math.Distance.Between(
                 this.sprite.x,
                 this.sprite.y,
-                this.targetRealPos.x,
-                this.targetRealPos.y
+                this.targetPixPos.x,
+                this.targetPixPos.y
             );
             
             // 10 pixel 아래일경우 원하는 지정 목표 타일 좌표에 도착한것으로 간주
             if(distance < 10 && this.moving === true) {
 
-                this.sprite.body.reset(this.targetRealPos.x, this.targetRealPos.y);
-                this.setRealPos(this.targetRealPos.x, this.targetRealPos.y);
-                //this.tilePos = this.realPosToTilePos(this.targetRealPos.x, this.targetRealPos.y);
+                this.sprite.body.reset(this.targetPixPos.x, this.targetPixPos.y);
+                this.setPixPos(this.targetPixPos.x, this.targetPixPos.y);
+                //this.tilePos = this.pixPosToTilePos(this.targetPixPos.x, this.targetPixPos.y);
                 this.tilePos = this.targetTilePos;
 
                 this.moving = false;
@@ -144,7 +144,7 @@ export class Car {
 
     setPosition(tileX: number, tileY: number, angle: number): void {
         this.tilePos = new Phaser.Math.Vector2(tileX, tileY);
-        this.realPos = this.tilePosToRealPos(tileX, tileY);
+        this.realPos = this.tilePosToPixPos(tileX, tileY);
         
         this.sprite.body.reset(this.realPos.x, this.realPos.y);
         this.sprite.angle = angle;
@@ -157,48 +157,48 @@ export class Car {
         this.moving = true;
         this.stop = false;
         this.targetTilePos = new Phaser.Math.Vector2(tileX, tileY);
-        this.targetRealPos = this.tilePosToRealPos(tileX, tileY);
+        this.targetPixPos = this.tilePosToPixPos(tileX, tileY);
 
         let distance = Phaser.Math.Distance.Between(
             this.sprite.x,
             this.sprite.y,
-            this.targetRealPos.x,
-            this.targetRealPos.y
+            this.targetPixPos.x,
+            this.targetPixPos.y
         );
 
-        let angleDeg = (Math.atan2(this.targetRealPos.y - this.sprite.y, this.targetRealPos.x - this.sprite.x) * 180 / Math.PI);
+        let angleDeg = (Math.atan2(this.targetPixPos.y - this.sprite.y, this.targetPixPos.x - this.sprite.x) * 180 / Math.PI);
         this.sprite.angle = angleDeg - 90;
 
         // set speed 
-        this.scene.physics.moveToObject(this.sprite, this.targetRealPos, distance);
+        this.scene.physics.moveToObject(this.sprite, this.targetPixPos, distance);
     }
 
     setTileCollisionEvent(): void {
         this.scene.physics.add.collider(this.sprite, this.wallLayer, 
-            async () => {
+            () => {
                 console.log('wall layer collision detected!!');
-                await this.sprite.body.reset(this.sprite.x, this.sprite.y);
-                this.realPos = await new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
-                this.tilePos = await this.realPosToTilePos(this.sprite.x, this.sprite.y);
-                await this.carMovedEmit();
+                this.sprite.body.reset(this.sprite.x, this.sprite.y);
+                this.realPos = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
+                this.tilePos = this.pixPosToTilePos(this.sprite.x, this.sprite.y);
+                this.carMovedEmit();
             }
         );
         this.scene.physics.add.collider(this.sprite, this.entranceExitLayer,
-            async () => {
+            () => {
                 console.log('entrance exit layer collision deteceted!!');
-                await this.sprite.body.reset(this.sprite.x, this.sprite.y);
-                this.realPos = await new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
-                this.tilePos = await this.realPosToTilePos(this.sprite.x, this.sprite.y);
-                await this.carMovedEmit();
+                this.sprite.body.reset(this.sprite.x, this.sprite.y);
+                this.realPos = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
+                this.tilePos = this.pixPosToTilePos(this.sprite.x, this.sprite.y);
+                this.carMovedEmit();
             }
         );
     }
 
-    setRealPos(realX: number, realY: number): void {
+    setPixPos(realX: number, realY: number): void {
         this.realPos = new Phaser.Math.Vector2(realX, realY);
     }
 
-    realPosToTilePos(realX: number, realY: number): Phaser.Math.Vector2 {
+    pixPosToTilePos(realX: number, realY: number): Phaser.Math.Vector2 {
         let tileSize = CrazyParkingLot.TILE_SIZE;
         let tileX = Math.ceil(realX / tileSize -  1);
         let tileY = Math.ceil(realY / tileSize - 1);
@@ -206,7 +206,7 @@ export class Car {
         return new Phaser.Math.Vector2(tileX, tileY);
     }
 
-    tilePosToRealPos(tileX: number, tileY: number): Phaser.Math.Vector2 {
+    tilePosToPixPos(tileX: number, tileY: number): Phaser.Math.Vector2 {
         let tileSize = CrazyParkingLot.TILE_SIZE;
         let realX = tileX * tileSize + (tileSize * 3 / 2);
         let realY = tileY * tileSize + (tileSize * 3 / 2);
