@@ -1,0 +1,48 @@
+<style>
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        font-size: 40px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=button] {
+        width: 100%;
+        background-color: #4CAF50;
+        font-size: 48px;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=button]:hover {
+        background-color: #45a049;
+    }
+
+    #controlPanel {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+        width: 500px;
+        height: 500px;
+    }
+</style>
+<div id="controlPanel">
+  <label for="target" style="font-size: 40px">Car UUID</label>
+  <input type="text" id="target" placeholder="uuid">
+
+  <label for="tileX" style="font-size: 40px">X cordinate</label>
+  <input type="text" id="tileX" placeholder="x">
+  
+  <label for="tileY" style="font-size: 40px">Y cordinate</label>
+  <input type="text" id="tileY" placeholder="y">
+
+  <input type="button" value="MOVE">
+</div>

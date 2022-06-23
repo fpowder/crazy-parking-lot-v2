@@ -51,6 +51,9 @@ export class CrazyParkingLot extends Phaser.Scene {
         for(let i = 1; i <= 4; i++) {
             this.load.image('p' + String(i), 'assets/person/p' + String(i) + '.png');
         }
+
+        // control panel html set
+        this.load.html('controlPanel', 'assets/dom/controlPanel.html');
         
     }
 
@@ -97,7 +100,7 @@ export class CrazyParkingLot extends Phaser.Scene {
 
         setPinchDrag(this, layerWidth, layerHeight);
 
-        this.socketClient = io('ws://localhost:3000', {
+        this.socketClient = io('ws://192.168.1.103:3000', {
             transports: ['websocket'],
             reconnectionDelayMax: 10000
         });
@@ -149,19 +152,20 @@ export class CrazyParkingLot extends Phaser.Scene {
             )
         });
 
+        // save socketClient on Phaser registry
         this.registry.set('socketClient', this.socketClient);
-
-        // console.log(redCar.uuid);
-        // console.log(blueCar.uuid);
-
-        // this.registry.set('redCar', redCar);
-        // this.registry.set('blueCar', blueCar);
-
-        // redCar.moveToTilePos(3, 3);
-        // blueCar.moveToTilePos(13, 100);
         
-        setControlPanel(this);
-        
+        // create test control panel for object movement
+        let controlPanel = this.add.dom(640, -650).createFromCache('controlPanel');
+        controlPanel.setPerspective(400);
+        controlPanel.addListener('click');
+        controlPanel.on('click', (event) => {
+            console.log(event);
+        });
+
+        // old
+        // setControlPanel(this);
+
     } // create
 
     update() {
@@ -219,12 +223,12 @@ function setPinchDrag(scene, layerWidth, layerHeight) {
 
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
+    width: settings.phrWidth,
+    height: settings.phrHeight,
+    parent: 'crazyParkingLot',
     dom:{
         createContainer: true
     },
-    parent: 'crazyParkingLot',
-    width: settings.phrWidth,
-    height: settings.phrHeight,
     pixelArt: true,
     scale: {
         mode: Phaser.Scale.FIT,

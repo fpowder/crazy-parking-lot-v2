@@ -59,24 +59,15 @@ export class Car {
         this.targetPixPos = new Phaser.Math.Vector2(this.realPos.x, this.realPos.y);
 
         //scene.load.image(carType, `assets/car/${carType}.png`);
-        this.sprite = scene.physics.add.sprite(0, 0, carType + 'Car');//.setInteractive(); neccasary?    
+        this.sprite = scene.physics.add.sprite(0, 0, carType + 'Car').setInteractive();
         this.sprite.setOrigin(0.5, 0.5);
         
         // object start postion according to tile posision
         this.sprite.setPosition(this.realPos.x, this.realPos.y);
 
         // this.sprite.setFrame(10);
-        this.setTileCollisionEvent();            
-
-        this.sprite.on('pointerdown', (pointer: any) => {
-            console.log(pointer);
-            this.sprite.setTint(0xff0000);
-        });
-
-        this.sprite.on('pointerup', (pointer: any) => {
-            this.sprite.clearTint();
-        });
-
+        this.setTileCollisionEvent();
+                     
         scene.events.on('update', () => {
             
             let distance = Phaser.Math.Distance.Between(
@@ -117,6 +108,15 @@ export class Car {
         scene.tweens.add({
             targets: this.sprite,
             alpha: { from: 0, to: 1 },
+        });
+
+        this.sprite.on('pointerdown', (pointer: any) => {
+            console.log(pointer);
+            this.sprite.setTint(0xff0000);
+        });
+
+        this.sprite.on('pointerup', (pointer: any) => {
+            this.sprite.clearTint();
         });
 
         // tween test
