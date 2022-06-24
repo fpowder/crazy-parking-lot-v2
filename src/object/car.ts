@@ -15,7 +15,7 @@ export class Car {
     wallLayer: Phaser.Tilemaps.TilemapLayer;
     entranceExitLayer: Phaser.Tilemaps.TilemapLayer;
 
-    uuid: String;
+    uuid: string;
     moving: boolean;
     stop: boolean;
 
@@ -27,7 +27,7 @@ export class Car {
         scene: Phaser.Scene,
         wallLayer: Phaser.Tilemaps.TilemapLayer,
         entranceExitLayer: Phaser.Tilemaps.TilemapLayer,
-        uuid: String
+        uuid: string
         // input: Phaser.Input.InputPlugin
     ) {
 
@@ -113,6 +113,15 @@ export class Car {
         this.sprite.on('pointerdown', (pointer: any) => {
             console.log(pointer);
             this.sprite.setTint(0xff0000);
+
+            // set this Car object UUID on control panel UUID text input
+            const controlPanel: Phaser.GameObjects.DOMElement
+                = scene.registry.get('controlPanel');
+
+            console.log(controlPanel);
+
+            const elUUIDInput: Element = controlPanel.getChildByID('targetUUID');
+            elUUIDInput.setAttribute('value', this.uuid);
         });
 
         this.sprite.on('pointerup', (pointer: any) => {

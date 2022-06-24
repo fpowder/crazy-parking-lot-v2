@@ -32,11 +32,12 @@
         padding: 20px;
         width: 500px;
         height: 500px;
+        opacity:0.7;
     }
 </style>
 <div id="controlPanel">
   <label for="target" style="font-size: 40px">Car UUID</label>
-  <input type="text" id="target" placeholder="uuid">
+  <input type="text" id="targetUUID" placeholder="uuid">
 
   <label for="tileX" style="font-size: 40px">X cordinate</label>
   <input type="text" id="tileX" placeholder="x">
@@ -44,5 +45,5 @@
   <label for="tileY" style="font-size: 40px">Y cordinate</label>
   <input type="text" id="tileY" placeholder="y">
 
-  <input type="button" value="MOVE">
+  <input type="button" id="moveBtn" value="MOVE">
 </div>

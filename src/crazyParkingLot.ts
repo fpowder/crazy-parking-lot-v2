@@ -100,7 +100,7 @@ export class CrazyParkingLot extends Phaser.Scene {
 
         setPinchDrag(this, layerWidth, layerHeight);
 
-        this.socketClient = io('ws://192.168.1.103:3000', {
+        this.socketClient = io('ws://localhost:3000', {
             transports: ['websocket'],
             reconnectionDelayMax: 10000
         });
@@ -156,12 +156,26 @@ export class CrazyParkingLot extends Phaser.Scene {
         this.registry.set('socketClient', this.socketClient);
         
         // create test control panel for object movement
-        let controlPanel = this.add.dom(640, -650).createFromCache('controlPanel');
+        let controlPanel: Phaser.GameObjects.DOMElement = this.add.dom(640, -650).createFromCache('controlPanel');
         controlPanel.setPerspective(400);
         controlPanel.addListener('click');
         controlPanel.on('click', (event) => {
             console.log(event);
+            // if move button, move car object to position
         });
+
+        let moveBtn: Element = controlPanel.getChildByID('moveBtn');
+        moveBtn.addEventListener('click', () => {
+            let uuid :string = controlPanel.getChildByID('targetUUID').getAttribute('value');
+            let tileX :number = parseInt((document.getElementById('tileX') as HTMLInputElement).value);
+            let tileY :number = parseInt((document.getElementById('tileY') as HTMLInputElement).value);
+            console.log('tileX : ' + tileX);
+            console.log('tileY : ' + tileY);
+            doMove(this, uuid, tileX, tileY);
+        });
+
+        // save control panel on Phaser registry
+        this.registry.set('controlPanel', controlPanel);
 
         // old
         // setControlPanel(this);
@@ -335,7 +349,7 @@ function setControlPanel(scene) {
     goBtn.setAttribute('style', btnStyle);
     goBtn.textContent = 'MOVE';
     goBtn.addEventListener('click', () => {
-        goBtnEvent(
+        doMove(
             scene,
             (document.getElementById('target') as HTMLInputElement).value,
             (document.getElementById('tileX') as HTMLInputElement).value,
@@ -363,7 +377,7 @@ function setControlPanel(scene) {
 
 }
 
-function goBtnEvent(scene, targetObjKey, tileX, tileY) {
+function doMove(scene, targetObjKey, tileX, tileY) {
 
     let car:Car = scene.registry.get(targetObjKey);
     car.moveToTilePos(tileX, tileY);
