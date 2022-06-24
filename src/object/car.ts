@@ -119,9 +119,24 @@ export class Car {
                 = scene.registry.get('controlPanel');
 
             console.log(controlPanel);
+            console.log(this.tilePos);
 
-            const elUUIDInput: Element = controlPanel.getChildByID('targetUUID');
-            elUUIDInput.setAttribute('value', this.uuid);
+            // const UUIDInput: Element = controlPanel.getChildByID('targetUUID');
+            // const tileXInput: Element = controlPanel.getChildByID('tileX');
+            // const tileYInput: Element = controlPanel.getChildByID('tileY');
+
+            // UUIDInput.setAttribute('value', this.uuid);
+            // tileXInput.setAttribute('value', String(this.tilePos.x));
+            // tileYInput.setAttribute('value', String(this.tilePos.y));
+
+            let uuidInput: HTMLElement = document.getElementById('targetUUID');
+            let tileXInput: HTMLElement = document.getElementById('tileX');
+            let tileYInput: HTMLElement = document.getElementById('tileY');
+
+            uuidInput.setAttribute('value', this.uuid);
+            tileXInput.setAttribute('value', String(this.tilePos.x));
+            tileYInput.setAttribute('value', String(this.tilePos.y));
+
         });
 
         this.sprite.on('pointerup', (pointer: any) => {

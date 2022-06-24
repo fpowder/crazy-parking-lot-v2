@@ -157,12 +157,6 @@ export class CrazyParkingLot extends Phaser.Scene {
         
         // create test control panel for object movement
         let controlPanel: Phaser.GameObjects.DOMElement = this.add.dom(640, -650).createFromCache('controlPanel');
-        controlPanel.setPerspective(400);
-        controlPanel.addListener('click');
-        controlPanel.on('click', (event) => {
-            console.log(event);
-            // if move button, move car object to position
-        });
 
         let moveBtn: Element = controlPanel.getChildByID('moveBtn');
         moveBtn.addEventListener('click', () => {
