@@ -129,13 +129,17 @@ export class Car {
             // tileXInput.setAttribute('value', String(this.tilePos.x));
             // tileYInput.setAttribute('value', String(this.tilePos.y));
 
-            let uuidInput: HTMLElement = document.getElementById('targetUUID');
-            let tileXInput: HTMLElement = document.getElementById('tileX');
-            let tileYInput: HTMLElement = document.getElementById('tileY');
+            // let uuidInput: HTMLElement = document.getElementById('targetUUID');
+            // let tileXInput: HTMLElement = document.getElementById('tileX');
+            // let tileYInput: HTMLElement = document.getElementById('tileY');
 
-            uuidInput.setAttribute('value', this.uuid);
-            tileXInput.setAttribute('value', String(this.tilePos.x));
-            tileYInput.setAttribute('value', String(this.tilePos.y));
+            // uuidInput.setAttribute('value', this.uuid);
+            // tileXInput.setAttribute('value', String(this.tilePos.x));
+            // tileYInput.setAttribute('value', String(this.tilePos.y));
+
+            (document.getElementById('targetUUID') as HTMLInputElement).value = this.uuid;
+            (document.getElementById('tileX') as HTMLInputElement).value = String(this.tilePos.x);
+            (document.getElementById('tileY') as HTMLInputElement).value = String(this.tilePos.y);
 
         });
 

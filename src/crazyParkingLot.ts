@@ -87,6 +87,9 @@ export class CrazyParkingLot extends Phaser.Scene {
         this.parkingAreas = cplMap.createFromObjects('parkingAreas', [
             { gid: 141, key: 'parkingAreaImg' },
         ]);
+
+        console.log(this.parkingAreas);
+
         this.entrance = cplMap.createFromObjects('entrance', [
             { id: 5 },
         ]);
@@ -160,7 +163,7 @@ export class CrazyParkingLot extends Phaser.Scene {
 
         let moveBtn: Element = controlPanel.getChildByID('moveBtn');
         moveBtn.addEventListener('click', () => {
-            let uuid :string = controlPanel.getChildByID('targetUUID').getAttribute('value');
+            let uuid :string = (document.getElementById('targetUUID') as HTMLInputElement).value;
             let tileX :number = parseInt((document.getElementById('tileX') as HTMLInputElement).value);
             let tileY :number = parseInt((document.getElementById('tileY') as HTMLInputElement).value);
             console.log('tileX : ' + tileX);

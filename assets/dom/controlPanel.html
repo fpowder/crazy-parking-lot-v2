@@ -10,6 +10,17 @@
         box-sizing: border-box;
     }
 
+    input[type=number], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        font-size: 40px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
     input[type=button] {
         width: 100%;
         background-color: #4CAF50;
@@ -40,10 +51,10 @@
   <input type="text" id="targetUUID" placeholder="uuid">
 
   <label for="tileX" style="font-size: 40px">X cordinate</label>
-  <input type="text" id="tileX" placeholder="x">
+  <input type="number" id="tileX" placeholder="x">
   
   <label for="tileY" style="font-size: 40px">Y cordinate</label>
-  <input type="text" id="tileY" placeholder="y">
+  <input type="number" id="tileY" placeholder="y">
 
   <input type="button" id="moveBtn" value="MOVE">
 </div>
