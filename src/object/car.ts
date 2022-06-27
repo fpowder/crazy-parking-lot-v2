@@ -16,8 +16,8 @@ export class Car {
     entranceExitLayer: Phaser.Tilemaps.TilemapLayer;
 
     uuid: string;
-    moving: boolean;
-    stop: boolean;
+    moving: boolean = false;
+    parked: boolean = false;
 
     socketClient: Socket;
 
@@ -45,7 +45,6 @@ export class Car {
 
         // set move complete
         this.moving = false; 
-        this.stop = true;
 
         // socketClient set
         this.socketClient = scene.registry.get('socketClient');
@@ -86,7 +85,6 @@ export class Car {
                 this.tilePos = this.targetTilePos;
 
                 this.moving = false;
-                this.stop = true;
 
                 this.carMovedEmit();
 
@@ -120,22 +118,6 @@ export class Car {
 
             console.log(controlPanel);
             console.log(this.tilePos);
-
-            // const UUIDInput: Element = controlPanel.getChildByID('targetUUID');
-            // const tileXInput: Element = controlPanel.getChildByID('tileX');
-            // const tileYInput: Element = controlPanel.getChildByID('tileY');
-
-            // UUIDInput.setAttribute('value', this.uuid);
-            // tileXInput.setAttribute('value', String(this.tilePos.x));
-            // tileYInput.setAttribute('value', String(this.tilePos.y));
-
-            // let uuidInput: HTMLElement = document.getElementById('targetUUID');
-            // let tileXInput: HTMLElement = document.getElementById('tileX');
-            // let tileYInput: HTMLElement = document.getElementById('tileY');
-
-            // uuidInput.setAttribute('value', this.uuid);
-            // tileXInput.setAttribute('value', String(this.tilePos.x));
-            // tileYInput.setAttribute('value', String(this.tilePos.y));
 
             (document.getElementById('targetUUID') as HTMLInputElement).value = this.uuid;
             (document.getElementById('tileX') as HTMLInputElement).value = String(this.tilePos.x);
@@ -178,12 +160,10 @@ export class Car {
         this.sprite.angle = angle;
         
         this.moving = false;
-        this.stop = true;
     }
 
     moveToTilePos(tileX: number, tileY: number): void {
         this.moving = true;
-        this.stop = false;
         this.targetTilePos = new Phaser.Math.Vector2(tileX, tileY);
         this.targetPixPos = this.tilePosToPixPos(tileX, tileY);
 
@@ -236,8 +216,8 @@ export class Car {
 
     tilePosToPixPos(tileX: number, tileY: number): Phaser.Math.Vector2 {
         let tileSize = CrazyParkingLot.TILE_SIZE;
-        let realX = tileX * tileSize + (tileSize * 3 / 2);
-        let realY = tileY * tileSize + (tileSize * 3 / 2);
+        let realX = tileX * tileSize + (tileSize * 1 / 2);
+        let realY = tileY * tileSize + (tileSize * 1 / 2);
 
         return new Phaser.Math.Vector2(realX, realY);
     }

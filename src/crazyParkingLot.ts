@@ -10,6 +10,8 @@ import { Person } from './object/person';
 
 import { io, Socket } from 'socket.io-client';
 
+let testCar;
+
 export class CrazyParkingLot extends Phaser.Scene {
 
     static readonly TILE_SIZE = 32;
@@ -88,8 +90,6 @@ export class CrazyParkingLot extends Phaser.Scene {
             { gid: 141, key: 'parkingAreaImg' },
         ]);
 
-        console.log(this.parkingAreas);
-
         this.entrance = cplMap.createFromObjects('entrance', [
             { id: 5 },
         ]);
@@ -97,6 +97,8 @@ export class CrazyParkingLot extends Phaser.Scene {
             { id: 5 },
         ]);
         
+        console.log(this.parkingAreas);
+
         // sprites.forEach((value: Phaser.GameObjects.Sprite) => {
         //     value.setScale(settings.spacer / 32, settings.spacer / 32);
         // });
@@ -176,6 +178,16 @@ export class CrazyParkingLot extends Phaser.Scene {
 
         // old
         // setControlPanel(this);
+
+        // create testCar
+        testCar = new Car(
+            'red',
+            new Phaser.Math.Vector2(3, 3),
+            this, //Phaser scene
+            this.wallLayer,
+            this.entranceExitLayer,
+            '0000-0000-0000-0000'
+        );
 
     } // create
 
@@ -284,95 +296,6 @@ const config: Phaser.Types.Core.GameConfig = {
 }
 
 export const game = new Phaser.Game(config);
-
-
-function setControlPanel(scene) {
-
-    // control panel 
-    let inputStyle = 
-        `width: 90%;
-        height: 60px;
-        font-size: 48px;
-        padding: 12px 20px; 
-        margin: 10px; 
-        display: inline-block; 
-        border: 1px solid #ccc; 
-        border-radius: 4px; 
-        box-sizing: border-box;`;
-
-    let containerDivStyle = 
-        `background-color: rgba(0,255,0,0.2); 
-        width: 600px; 
-        height: 470px; 
-        font: 48px Arial; 
-        font-weight: bold;`;
-
-    let btnStyle = 
-        `width: 100%;
-        background-color: #2f77ed;
-        font-size: 48px;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;`;
-
-    let targetInput = document.createElement('input');
-    targetInput.id = 'target';
-    targetInput.setAttribute('style', inputStyle);
-
-    let tileXInput = document.createElement('input');
-    tileXInput.id = 'tileX';
-    tileXInput.setAttribute('style', inputStyle);
-
-    let tileYInput = document.createElement('input');
-    tileYInput.id = 'tileY';
-    tileYInput.setAttribute('style', inputStyle);
-
-    let targetLabel = document.createElement('label');
-    targetLabel.setAttribute('for', 'target');
-    targetLabel.textContent = 'Car Target UUID';
-
-    let tileXLabel = document.createElement('label');
-    tileXLabel.setAttribute('for', 'tileX');
-    tileXLabel.textContent = 'Target TileX';
-
-    let tileYLabel = document.createElement('label');
-    tileYLabel.setAttribute('for', 'tileY');
-    tileYLabel.textContent = 'Target TileY';
-
-    let goBtn = document.createElement('button');
-    goBtn.setAttribute('style', btnStyle);
-    goBtn.textContent = 'MOVE';
-    goBtn.addEventListener('click', () => {
-        doMove(
-            scene,
-            (document.getElementById('target') as HTMLInputElement).value,
-            (document.getElementById('tileX') as HTMLInputElement).value,
-            (document.getElementById('tileY') as HTMLInputElement).value,
-        );
-    });
-
-    let containerDiv = document.createElement('div');
-    containerDiv.setAttribute('style', containerDivStyle);
-
-    containerDiv.appendChild(targetLabel);
-    containerDiv.appendChild(targetInput);
-
-    containerDiv.appendChild(tileXLabel);
-    containerDiv.appendChild(tileXInput);
-
-    containerDiv.appendChild(tileYLabel);
-    containerDiv.appendChild(tileYInput);
-
-    containerDiv.appendChild(goBtn);
-
-    let container = scene.add.container(32 * 50, 240);
-    let element = scene.add.dom(0, 0, containerDiv);
-    container.add([element]);
-
-}
 
 function doMove(scene, targetObjKey, tileX, tileY) {
 
