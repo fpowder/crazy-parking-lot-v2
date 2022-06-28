@@ -1,4 +1,4 @@
-const wallTileRange = require('../assets/tileWallLayer');
+const tileWallRange = require('../assets/tileWallLayerRange');
 
 module.exports = function getRandomPos() {
     let randomX  = getRandomInt(1, 59);
@@ -6,7 +6,7 @@ module.exports = function getRandomPos() {
 
     let rangeClear = true;
 
-    let availableYRange = wallTileRange[String(randomX)];
+    let availableYRange = tileWallRange[String(randomX)];
     for(let eachRange of availableYRange) {
         if(checkInRange(eachRange[0], eachRange[1], randomY)) {
             rangeClear = false;

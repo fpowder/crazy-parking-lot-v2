@@ -1,7 +1,6 @@
 const getRandomPos = require('./randomPos');
 const uuidv4 = require('./utils').uuidv4 ;
-const randomDegrees = require('./utils').randomDegrees;
-const colors = [ 'red', 'blue', 'green' ];
+const { randomDegrees, getRandomColor } = require('./utils');
 
 function getRandomColor() {
     const randomIndex = Math.floor(Math.random() * colors.length);

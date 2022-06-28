@@ -18,6 +18,7 @@ export class Car {
     uuid: string;
     moving: boolean = false;
     parked: boolean = false;
+    parkingArea: number = 0;
 
     socketClient: Socket;
 
