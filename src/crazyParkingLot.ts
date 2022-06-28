@@ -10,7 +10,7 @@ import { Person } from './object/person';
 
 import { io, Socket } from 'socket.io-client';
 
-let testCar;
+let testCar: Car;
 
 export class CrazyParkingLot extends Phaser.Scene {
 
