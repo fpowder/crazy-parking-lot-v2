@@ -24,7 +24,8 @@ module.exports = function createRandomCars() {
             tilePos: {
                 x: eachPos[0],
                 y: eachPos[1]
-            }
+            },
+            parked: false
         }
 
         cars[uuid] = eachCar;

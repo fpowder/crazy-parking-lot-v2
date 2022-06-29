@@ -21,11 +21,12 @@ module.exports = function createRandomParkedPos() {
             parkedCars[uuidv4()] = {
                 parkingArea: value,
                 carType : randomColor(),
-                direction: eachPa.direction,
+                angle: setParkedCarAngle(eachPa.direction),
                 tilePos: {
                     x: eachPa.cord.start[0] + (eachPa.cord.vector[0] / 2),
                     y: eachPa.cord.start[1] + (eachPa.cord.vector[1] / 2)
-                }
+                },
+                parked: true
             }
 
             count++;
@@ -35,3 +36,16 @@ module.exports = function createRandomParkedPos() {
 
     return parkedCars;
 }   
+
+function setParkedCarAngle(direction) {
+    if(direction === 'left') {
+      return 90;
+    } else if(direction === 'right') {
+      return -90;
+    } else if(direction === 'up') {
+      return 180;
+    } else if(direction === 'down') {
+      return 0;
+    }
+
+}

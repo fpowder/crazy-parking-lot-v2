@@ -127,6 +127,7 @@ export class CrazyParkingLot extends Phaser.Scene {
                         uuid
                     );
                     car.sprite.angle = eachCar.angle;
+                    car.parked = eachCar.parked;
                     this.registry.set(uuid, car);
                 }
             }
@@ -145,10 +146,7 @@ export class CrazyParkingLot extends Phaser.Scene {
                     this.registry.set(uuid, person);
                 }
             }
-            // parked cars
-            if(cplStatus.parkedCars) {
-
-            }
+            
         });
 
         this.socketClient.on('carMoveComplete', (movedData) => {

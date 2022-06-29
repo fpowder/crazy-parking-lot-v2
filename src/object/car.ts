@@ -86,7 +86,8 @@ export class Car {
                 this.tilePos = this.targetTilePos;
 
                 this.moving = false;
-
+                this.parked = false;
+                
                 this.carMovedEmit();
 
                 // this.socketClient.emit('carMoved', {
@@ -110,15 +111,11 @@ export class Car {
         });
 
         this.sprite.on('pointerdown', (pointer: any) => {
-            console.log(pointer);
             this.sprite.setTint(0xff0000);
 
             // set this Car object UUID on control panel UUID text input
             const controlPanel: Phaser.GameObjects.DOMElement
                 = scene.registry.get('controlPanel');
-
-            console.log(controlPanel);
-            console.log(this.tilePos);
 
             (document.getElementById('targetUUID') as HTMLInputElement).value = this.uuid;
             (document.getElementById('tileX') as HTMLInputElement).value = String(this.tilePos.x);

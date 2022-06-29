@@ -8,8 +8,7 @@ module.exports = function() {
     const parkedCars = createRandomParkedCars(); 
 
     return {
-        cars: cars,
-        parkedCars: parkedCars,
+        cars: Object.assign(cars, parkedCars),
         persons: persons
     }
 
