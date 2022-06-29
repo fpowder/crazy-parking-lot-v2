@@ -113,6 +113,7 @@ export class CrazyParkingLot extends Phaser.Scene {
         // socket
         this.socketClient.on('currentCpl', (cplStatus) => {
             console.log(cplStatus);
+            // cars
             if(cplStatus.cars) {
                 let cars = cplStatus.cars;
                 for(let uuid in cars) {
@@ -129,7 +130,7 @@ export class CrazyParkingLot extends Phaser.Scene {
                     this.registry.set(uuid, car);
                 }
             }
-
+            // persons
             if(cplStatus.persons) {
                 let persons = cplStatus.persons;
                 for(let uuid in persons) {
@@ -143,6 +144,10 @@ export class CrazyParkingLot extends Phaser.Scene {
                     person.sprite.angle = eachPerson.angle;
                     this.registry.set(uuid, person);
                 }
+            }
+            // parked cars
+            if(cplStatus.parkedCars) {
+
             }
         });
 

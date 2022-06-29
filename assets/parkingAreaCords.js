@@ -2,7 +2,7 @@ module.exports = {
     1: {
         group: 'top',
         direction: 'down',
-        cords: {
+        cord: {
             start: [11, 2],
             vector: [6, 10]
         }
@@ -10,7 +10,7 @@ module.exports = {
     2: {
         group: 'top',
         direction: 'down',
-        cords: {
+        cord: {
             start: [17, 2],
             vector: [6, 10]
         }
@@ -18,7 +18,7 @@ module.exports = {
     3: {
         group: 'top',
         direction: 'down',
-        cords: {
+        cord: {
             start: [24, 2],
             vector: [5, 10]
         }
@@ -26,7 +26,7 @@ module.exports = {
     4: {
         group: 'top',
         direction: 'down',
-        cords: {
+        cord: {
             start: [29, 2],
             vector: [5, 10]
         }
@@ -34,7 +34,7 @@ module.exports = {
     5: {
         group: 'top',
         direction: 'down',
-        cords: {
+        cord: {
             start: [35, 2],
             vector: [5, 10]
         }
@@ -42,7 +42,7 @@ module.exports = {
     6: {
         group: 'right',
         direction: 'left',
-        cords: {
+        cord: {
             start: [47, 13],
             vector: [9, 4]
         }
@@ -50,7 +50,7 @@ module.exports = {
     7: {
         group: 'right',
         direction: 'left',
-        cords: {
+        cord: {
             start: [47, 18],
             vector: [9, 5]
         }
@@ -58,7 +58,7 @@ module.exports = {
     8: {
         group: 'right',
         direction: 'left',
-        cords: {
+        cord: {
             start: [47, 23],
             vector: [9, 5]
         }
@@ -66,7 +66,7 @@ module.exports = {
     9: {
         group: 'right',
         direction: 'left',
-        cords: {
+        cord: {
             start: [47, 28],
             vector: [9, 5]
         }
@@ -74,7 +74,7 @@ module.exports = {
     10: {
         group: 'right',
         direction: 'left',
-        cords: {
+        cord: {
             start: [47, 34],
             vector: [9, 5]
         }
@@ -82,7 +82,7 @@ module.exports = {
     11: {
         group: 'right',
         direction: 'left',
-        cords: {
+        cord: {
             start: [47, 39],
             vector: [9, 5]
         }
@@ -90,7 +90,7 @@ module.exports = {
     12: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 13],
             vector: [10, 4]
         }
@@ -98,7 +98,7 @@ module.exports = {
     13: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 17],
             vector: [10, 5]
         }
@@ -106,7 +106,7 @@ module.exports = {
     14: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 22],
             vector: [10, 5]
         }
@@ -114,7 +114,7 @@ module.exports = {
     15: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 27],
             vector: [10, 5]
         }
@@ -122,7 +122,7 @@ module.exports = {
     16: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 33],
             vector: [10, 4]
         }
@@ -130,7 +130,7 @@ module.exports = {
     17: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 37],
             vector: [10, 5]
         }
@@ -138,7 +138,7 @@ module.exports = {
     18: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 42],
             vector: [10, 5]
         }
@@ -146,7 +146,7 @@ module.exports = {
     19: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 48],
             vector: [10, 4]
         }
@@ -154,7 +154,7 @@ module.exports = {
     20: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 52],
             vector: [10, 5]
         }
@@ -162,7 +162,7 @@ module.exports = {
     21: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 57],
             vector: [10, 5]
         }
@@ -170,7 +170,7 @@ module.exports = {
     22: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 63],
             vector: [10, 4]
         }
@@ -178,7 +178,7 @@ module.exports = {
     23: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 67],
             vector: [10, 5]
         }
@@ -186,7 +186,7 @@ module.exports = {
     24: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 72],
             vector: [10, 5]
         }
@@ -194,7 +194,7 @@ module.exports = {
     25: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 78],
             vector: [10, 4]
         }
@@ -202,7 +202,7 @@ module.exports = {
     26: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 82],
             vector: [10, 5]
         }
@@ -210,7 +210,7 @@ module.exports = {
     27: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 87],
             vector: [10, 5]
         }
@@ -218,7 +218,7 @@ module.exports = {
     28: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 93],
             vector: [10, 6]
         }
@@ -226,7 +226,7 @@ module.exports = {
     29: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 99],
             vector: [10, 6]
         }
@@ -234,7 +234,7 @@ module.exports = {
     30: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 106],
             vector: [10, 6]
         }
@@ -242,7 +242,7 @@ module.exports = {
     31: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 112],
             vector: [10, 5]
         }
@@ -250,7 +250,7 @@ module.exports = {
     32: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 118],
             vector: [10, 6]
         }
@@ -258,7 +258,7 @@ module.exports = {
     33: {
         group: 'left',
         direction: 'right',
-        cords: {
+        cord: {
             start: [1, 124],
             vector: [10, 6]
         }
@@ -266,7 +266,7 @@ module.exports = {
     34: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 33],
             vector: [10, 4]
         }
@@ -274,7 +274,7 @@ module.exports = {
     35: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 37],
             vector: [10, 5]
         }
@@ -282,7 +282,7 @@ module.exports = {
     36: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 42],
             vector: [10, 5]
         }
@@ -290,7 +290,7 @@ module.exports = {
     37: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 48],
             vector: [10, 4]
         }
@@ -298,7 +298,7 @@ module.exports = {
     38: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 52],
             vector: [10, 5]
         }
@@ -306,7 +306,7 @@ module.exports = {
     39: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 57],
             vector: [10, 5]
         }
@@ -314,7 +314,7 @@ module.exports = {
     40: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 63],
             vector: [10, 4]
         }
@@ -322,7 +322,7 @@ module.exports = {
     41: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 67],
             vector: [10, 5]
         }
@@ -330,7 +330,7 @@ module.exports = {
     42: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 72],
             vector: [10, 5]
         }
@@ -338,7 +338,7 @@ module.exports = {
     43: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 78],
             vector: [10, 4]
         }
@@ -346,7 +346,7 @@ module.exports = {
     44: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 82],
             vector: [10, 5]
         }
@@ -354,7 +354,7 @@ module.exports = {
     45: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 87],
             vector: [10, 5]
         }
@@ -362,7 +362,7 @@ module.exports = {
     46: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 93],
             vector: [10, 6]
         }
@@ -370,7 +370,7 @@ module.exports = {
     47: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 99],
             vector: [10, 6]
         }
@@ -378,7 +378,7 @@ module.exports = {
     48: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 106],
             vector: [10, 6]
         }
@@ -386,71 +386,71 @@ module.exports = {
     49: {
         group: 'middle',
         direction: 'left',
-        cords: {
+        cord: {
             start: [21, 112],
             vector: [10, 5]
         }
     },
     50: {
-        group: 'bs',
+        group: 'bottom',
         direction: 'up',
-        cords: {
+        cord: {
             start: [11, 130],
             vector: [6, 10]
         }
     },
     51: {
-        group: 'bs',
+        group: 'bottom',
         direction: 'up',
-        cords: {
+        cord: {
             start: [17, 130],
             vector: [6, 10]
         }
     },
     52: {
-        group: 'bs',
+        group: 'bottom',
         direction: 'up',
-        cords: {
+        cord: {
             start: [24, 130],
             vector: [5, 10]
         }
     },
     53: {
-        group: 'bs',
+        group: 'bottom',
         direction: 'up',
-        cords: {
+        cord: {
             start: [29, 130],
             vector: [4, 10]
         }
     },
     54: {
-        group: 'bs',
+        group: 'bottom',
         direction: 'up',
-        cords: {
+        cord: {
             start: [34, 130],
             vector: [5, 10]
         }
     },
     55: {
-        group: 'bs',
+        group: 'bottom',
         direction: 'up',
-        cords: {
+        cord: {
             start: [39, 130],
             vector: [5, 10]
         }
     },
     56: {
-        group: 'bs',
+        group: 'bottom',
         direction: 'up',
-        cords: {
+        cord: {
             start: [45, 130],
             vector: [5, 10]
         }
     },
     57: {
-        group: 'bs',
+        group: 'bottom',
         direction: 'up',
-        cords: {
+        cord: {
             start: [50, 130],
             vector: [5, 10]
         }

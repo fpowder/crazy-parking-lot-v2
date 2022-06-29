@@ -1,14 +1,15 @@
 const createRandomCars = require('./randomCar');
 const createRandomPersons = require('./randomPerson');
+const createRandomParkedCars = require('./randomParkedCar');
 
 module.exports = function() {
     const cars = createRandomCars();
     const persons = createRandomPersons();
-    
-    //return Object.assign(cars, persons);
+    const parkedCars = createRandomParkedCars(); 
 
     return {
         cars: cars,
+        parkedCars: parkedCars,
         persons: persons
     }
 

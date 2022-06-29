@@ -1,8 +1,8 @@
 const parkingAreaCords = require('../assets/parkingAreaCords');
-const { randomInt } = require('./utils');
+const { randomInt, randomColor, uuidv4 } = require('./utils');
 
 let randomParked = [];
-let result = {};
+let parkedCars = {};
 let parkedCount = randomInt(1, 57);
 let count = 0;
 
@@ -13,13 +13,25 @@ module.exports = function createRandomParkedPos() {
 
         if(count === parkedCount) break;
 
-        if(!randomParked.includes(value)){
+        if(!randomParked.includes(value)) {
             randomParked.push(value);
-            result[String(value)] = parkingAreaCords[String(value)];
+
+            let eachPa = parkingAreaCords[String(value)];
+
+            parkedCars[uuidv4()] = {
+                parkingArea: value,
+                carType : randomColor(),
+                direction: eachPa.direction,
+                tilePos: {
+                    x: eachPa.cord.start[0] + (eachPa.cord.vector[0] / 2),
+                    y: eachPa.cord.start[1] + (eachPa.cord.vector[1] / 2)
+                }
+            }
+
             count++;
             return createRandomParkedPos();
         }
     }
 
-    return result;
+    return parkedCars;
 }   

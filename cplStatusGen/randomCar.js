@@ -1,12 +1,5 @@
 const getRandomPos = require('./randomPos');
-const uuidv4 = require('./utils').uuidv4 ;
-const { randomDegrees, getRandomColor } = require('./utils');
-
-function getRandomColor() {
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    const item = colors[randomIndex];
-    return item;
-}
+const { randomDegrees, randomColor, uuidv4 } = require('./utils');
 
 function createCarsTilePos() {
     let result = [];
@@ -26,7 +19,7 @@ module.exports = function createRandomCars() {
         let uuid = uuidv4();
         let eachCar = {
             objectType: 'car',
-            carType: getRandomColor(),
+            carType: randomColor(),
             angle: randomDegrees(),
             tilePos: {
                 x: eachPos[0],

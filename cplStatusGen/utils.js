@@ -1,6 +1,6 @@
 const colors = [ 'red', 'blue', 'green' ];
 
-exports.getRandomColor = () => {
+exports.randomColor = () => {
     const randomIndex = Math.floor(Math.random() * colors.length);
     const item = colors[randomIndex];
     return item;
