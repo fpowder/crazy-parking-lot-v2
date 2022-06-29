@@ -1,16 +1,15 @@
 import Phaser from 'phaser';
 
 // phaser3 rex plugins
-import GesturesPlugin from 'phaser3-rex-plugins/plugins/gestures-plugin';
+// import GesturesPlugin from 'phaser3-rex-plugins/plugins/gestures-plugin';
 import { Pinch } from 'phaser3-rex-plugins/plugins/gestures';
+import Drag from 'phaser3-rex-plugins/plugins/drag';
 
 import { settings }  from './config/settings';
 import { Car } from './object/car';
 import { Person } from './object/person';
 
 import { io, Socket } from 'socket.io-client';
-
-let testCar: Car;
 
 export class CrazyParkingLot extends Phaser.Scene {
 
@@ -27,8 +26,7 @@ export class CrazyParkingLot extends Phaser.Scene {
     socketClient: Socket;
 
     //mouse input
-    //input: ; 
-
+    //input
     constructor() {
         super({
             key: 'crazyParkingLot'
@@ -105,7 +103,7 @@ export class CrazyParkingLot extends Phaser.Scene {
 
         setPinchDrag(this, layerWidth, layerHeight);
 
-        this.socketClient = io('ws://localhost:3000', {
+        this.socketClient = io('ws://192.168.1.14:3000', {
             transports: ['websocket'],
             reconnectionDelayMax: 10000
         });
@@ -145,8 +143,7 @@ export class CrazyParkingLot extends Phaser.Scene {
                     person.sprite.angle = eachPerson.angle;
                     this.registry.set(uuid, person);
                 }
-            }
-            
+            }   
         });
 
         this.socketClient.on('carMoveComplete', (movedData) => {
@@ -164,7 +161,7 @@ export class CrazyParkingLot extends Phaser.Scene {
         this.registry.set('socketClient', this.socketClient);
         
         // create test control panel for object movement
-        let controlPanel: Phaser.GameObjects.DOMElement = this.add.dom(640, -650).createFromCache('controlPanel');
+        let controlPanel: Phaser.GameObjects.DOMElement = this.add.dom(0, 0).createFromCache('controlPanel');
 
         let moveBtn: Element = controlPanel.getChildByID('moveBtn');
         moveBtn.addEventListener('click', () => {
@@ -176,21 +173,29 @@ export class CrazyParkingLot extends Phaser.Scene {
             doMove(this, uuid, tileX, tileY);
         });
 
+        let container = this.add.container(300, 300);
+        container.add([controlPanel]);
+        container.setSize(500, 500);
+        
+        // drag with rexPlugin
+        let cpDrag = new Drag(container, {
+            enable: true,
+            axis: 'both',
+        }).drag();
+
+        // mouse drag
+        // container.setInteractive();
+        // this.input.setDraggable(container);
+        // this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+        //     gameObject.x = dragX;
+        //     gameObject.y = dragY;
+        // })
+
         // save control panel on Phaser registry
         this.registry.set('controlPanel', controlPanel);
 
         // old
         // setControlPanel(this);
-
-        // create testCar
-        testCar = new Car(
-            'red',
-            new Phaser.Math.Vector2(3, 3),
-            this, //Phaser scene
-            this.wallLayer,
-            this.entranceExitLayer,
-            '0000-0000-0000-0000'
-        );
 
     } // create
 
@@ -264,11 +269,11 @@ const config: Phaser.Types.Core.GameConfig = {
     // canvasStyle: `left: ${settings.cnvAdjWidth}px; top: ${settings.cnvAdjHeight}px; position: absolute; z-index: -1;`,
     // canvasStyle: `touch-action: auto; overflow: hidden; margin: 0%; padding: 0%;`,
     // canvasStyle: `z-index: -1;`,
-    plugins: {
-        scene: [
-            { key: 'rexGestures', plugin: GesturesPlugin, mapping: 'rexGestures' }
-        ]
-    },
+    // plugins: {
+    //     scene: [
+    //         { key: 'rexGestures', plugin: GesturesPlugin, mapping: 'rexGestures' }
+    //     ]
+    // },
     fps: {
         forceSetTimeOut: true,
         target: 60
@@ -300,7 +305,7 @@ const config: Phaser.Types.Core.GameConfig = {
 
 export const game = new Phaser.Game(config);
 
-function doMove(scene, targetObjKey, tileX, tileY) {
+function doMove(scene: Phaser.Scene, targetObjKey: string, tileX: number, tileY: number) {
 
     let car:Car = scene.registry.get(targetObjKey);
     car.moveToTilePos(tileX, tileY);

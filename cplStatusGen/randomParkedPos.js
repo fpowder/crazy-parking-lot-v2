@@ -29,6 +29,17 @@ module.exports = function createRandomParkedPos() {
                 parked: true
             }
 
+            // parkedCars[uuidv4()] = {
+            //     parkingArea: value,
+            //     carType : randomColor(),
+            //     angle: 0,
+            //     tilePos: {
+            //         x: eachPa.cord.start[0],
+            //         y: eachPa.cord.start[1]
+            //     },
+            //     parked: true
+            // }
+
             count++;
             return createRandomParkedPos();
         }
@@ -47,5 +58,4 @@ function setParkedCarAngle(direction) {
     } else if(direction === 'down') {
       return 0;
     }
-
 }
