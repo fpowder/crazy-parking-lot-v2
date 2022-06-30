@@ -172,11 +172,24 @@ export class CrazyParkingLot extends Phaser.Scene {
             console.log('tileY : ' + tileY);
             doMove(this, uuid, tileX, tileY);
         });
-
+ 
         let container = this.add.container(300, 300);
         container.add([controlPanel]);
-        container.setSize(500, 500);
-        
+        container.setSize(500, 700);
+        container.setDepth(1);
+        container.setInteractive();
+
+        this.input.setDraggable(container);
+
+        // container.on('pointerover', () => {
+        //     alert('pointerover!!');
+        // });
+
+        // this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+        //     gameObject.x = dragX;
+        //     gameObject.y = dragY;
+        // });
+
         // drag with rexPlugin
         let cpDrag = new Drag(container, {
             enable: true,
@@ -253,7 +266,7 @@ function setPinchDrag(scene, layerWidth, layerHeight) {
 }
 
 const config: Phaser.Types.Core.GameConfig = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     width: settings.phrWidth,
     height: settings.phrHeight,
     parent: 'crazyParkingLot',
