@@ -62,7 +62,8 @@ export const settings = (() => {
         cnvAdjHeight: cnvAdjHeight,
         cnvAdjWidth: cnvAdjWidth,
         phrHeight: phrHeight,
-        phrWidth: phrWidth
+        phrWidth: phrWidth,
+        host: 'localhost'
     }
 
 })();

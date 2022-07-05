@@ -103,7 +103,7 @@ export class CrazyParkingLot extends Phaser.Scene {
 
         setPinchDrag(this, layerWidth, layerHeight);
 
-        this.socketClient = io('ws://192.168.1.14:3000', {
+        this.socketClient = io(`ws://${settings.host}:3000`, {
             transports: ['websocket'],
             reconnectionDelayMax: 10000
         });
@@ -161,7 +161,7 @@ export class CrazyParkingLot extends Phaser.Scene {
         this.registry.set('socketClient', this.socketClient);
         
         // create test control panel for object movement
-        let controlPanel: Phaser.GameObjects.DOMElement = this.add.dom(0, 0).createFromCache('controlPanel');
+        let controlPanel: Phaser.GameObjects.DOMElement = this.add.dom(125, 300).createFromCache('controlPanel');
 
         let moveBtn: Element = controlPanel.getChildByID('moveBtn');
         moveBtn.addEventListener('click', () => {
@@ -173,22 +173,20 @@ export class CrazyParkingLot extends Phaser.Scene {
             doMove(this, uuid, tileX, tileY);
         });
  
-        let container = this.add.container(300, 300);
-        container.add([controlPanel]);
-        container.setSize(500, 700);
+        let dragBtn = this.add.rectangle(0, 0, 250, 100, 0x6666ff);
+
+        let container = this.add.container(300, 500);
+        container.add([dragBtn, controlPanel]);
+        container.setSize(250, 100);
         container.setDepth(1);
-        container.setInteractive();
+        // container.setInteractive(dragBtn, Phaser.Geom.Rectangle.Contains);
+        container.setInteractive(new Phaser.Geom.Rectangle(0, 0, 250, 100), Phaser.Geom.Rectangle.Contains);
 
-        this.input.setDraggable(container);
+        console.log(container);
 
-        // container.on('pointerover', () => {
-        //     alert('pointerover!!');
-        // });
-
-        // this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-        //     gameObject.x = dragX;
-        //     gameObject.y = dragY;
-        // });
+        let graphics = this.add.graphics();
+        graphics.lineStyle(2, 0x00ffff, 1);
+        graphics.strokeRect(container.x - 250, container.y - 50, container.input.hitArea.width, container.input.hitArea.height);
 
         // drag with rexPlugin
         let cpDrag = new Drag(container, {
@@ -196,13 +194,21 @@ export class CrazyParkingLot extends Phaser.Scene {
             axis: 'both',
         }).drag();
 
-        // mouse drag
-        // container.setInteractive();
-        // this.input.setDraggable(container);
-        // this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-        //     gameObject.x = dragX;
-        //     gameObject.y = dragY;
-        // })
+        // let conX = container.x;
+        // let conY = container.y;
+        
+        // dragBtn.setInteractive({ draggable: true, pixelPerfect: false }).on('drag', (pointer, dragX, dragY) => {
+        //     console.log(dragX);
+        //     console.log(dragY);
+
+        //     let camera = this.cameras.main;
+
+        //     container.setPosition(
+        //         dragX,
+        //         dragY
+        //     )
+
+        // }, this);
 
         // save control panel on Phaser registry
         this.registry.set('controlPanel', controlPanel);
