@@ -180,13 +180,13 @@ export class CrazyParkingLot extends Phaser.Scene {
         container.setSize(250, 100);
         container.setDepth(1);
         // container.setInteractive(dragBtn, Phaser.Geom.Rectangle.Contains);
-        container.setInteractive(new Phaser.Geom.Rectangle(0, 0, 250, 100), Phaser.Geom.Rectangle.Contains);
+        // container.setInteractive(new Phaser.Geom.Rectangle(0, 0, 250, 100), Phaser.Geom.Rectangle.Contains);
 
         console.log(container);
 
-        let graphics = this.add.graphics();
-        graphics.lineStyle(2, 0x00ffff, 1);
-        graphics.strokeRect(container.x - 250, container.y - 50, container.input.hitArea.width, container.input.hitArea.height);
+        // let graphics = this.add.graphics();
+        // graphics.lineStyle(2, 0x00ffff, 1);
+        // graphics.strokeRect(container.x - 250, container.y - 50, container.input.hitArea.width, container.input.hitArea.height);
 
         // drag with rexPlugin
         let cpDrag = new Drag(container, {

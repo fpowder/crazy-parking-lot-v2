@@ -63,7 +63,7 @@ export const settings = (() => {
         cnvAdjWidth: cnvAdjWidth,
         phrHeight: phrHeight,
         phrWidth: phrWidth,
-        host: 'localhost'
+        host: '192.168.1.14'
     }
 
 })();
