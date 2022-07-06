@@ -298,6 +298,13 @@ function setPinchDrag(scene, layerWidth, layerHeight) {
     }, scene);
 }
 
+function doMove(scene: Phaser.Scene, targetObjKey: string, tileX: number, tileY: number) {
+
+    let car:Car = scene.registry.get(targetObjKey);
+    car.moveToTilePos(tileX, tileY);
+
+}
+
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.WEBGL,
     width: settings.phrWidth,
@@ -313,13 +320,6 @@ const config: Phaser.Types.Core.GameConfig = {
     // },
     backgroundColor: '#b7dfed',
     canvasStyle: `left: ${settings.cnvAdjWidth}px; top: ${settings.cnvAdjHeight}px; position: absolute; z-index: -1;`,
-    // canvasStyle: `touch-action: auto; overflow: hidden; margin: 0%; padding: 0%;`,
-    // canvasStyle: `z-index: -1;`,
-    // plugins: {
-    //     scene: [
-    //         { key: 'rexGestures', plugin: GesturesPlugin, mapping: 'rexGestures' }
-    //     ]
-    // },
     fps: {
         forceSetTimeOut: true,
         target: 60
@@ -337,23 +337,6 @@ const config: Phaser.Types.Core.GameConfig = {
         // }
     },
     scene: [CrazyParkingLot],
-    // scene: {
-    //     preload: preload,
-    //     create: create
-    // },
-    // scene: [ Preloader, Wall, ParkingArea, EntranceExit ],
-    // callbacks: {
-    //     postBoot: function (game) {
-    //       game.domContainer.style.pointerEvents = 'none';
-    //     },
-    // },
 }
 
 export const game = new Phaser.Game(config);
-
-function doMove(scene: Phaser.Scene, targetObjKey: string, tileX: number, tileY: number) {
-
-    let car:Car = scene.registry.get(targetObjKey);
-    car.moveToTilePos(tileX, tileY);
-
-}
