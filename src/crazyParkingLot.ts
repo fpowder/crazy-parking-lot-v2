@@ -11,6 +11,24 @@ import { Person } from './object/person';
 
 import { io, Socket } from 'socket.io-client';
 
+import interact from 'interactjs';
+
+const position = { x: 0, y: 0 };
+
+interact('#controlPanel').draggable({
+    listeners: {
+        start(event) {
+            console.log(event.type, event.target);
+        },
+        move(event) {
+            position.x += event.dx;
+            position.y += event.dy;
+
+            event.target.style.transform = `translate(${position.x}px, ${position.y}px)`
+        }
+    }
+});
+
 export class CrazyParkingLot extends Phaser.Scene {
 
     static readonly TILE_SIZE = 32;
@@ -53,7 +71,7 @@ export class CrazyParkingLot extends Phaser.Scene {
         }
 
         // control panel html set
-        this.load.html('controlPanel', 'assets/dom/controlPanel.html');
+        // this.load.html('controlPanel', 'assets/dom/controlPanel.html');
         
     }
 
@@ -160,8 +178,19 @@ export class CrazyParkingLot extends Phaser.Scene {
         // save socketClient on Phaser registry
         this.registry.set('socketClient', this.socketClient);
         
+        const moveBtn: HTMLButtonElement = document.getElementById('moveBtn') as HTMLButtonElement;
+        
+        moveBtn.addEventListener('click', () => {
+            let uuid :string = (document.getElementById('targetUUID') as HTMLInputElement).value;
+            let tileX :number = parseInt((document.getElementById('tileX') as HTMLInputElement).value);
+            let tileY :number = parseInt((document.getElementById('tileY') as HTMLInputElement).value);
+            console.log('tileX : ' + tileX);
+            console.log('tileY : ' + tileY);
+            doMove(this, uuid, tileX, tileY);
+        });
+
         // create test control panel for object movement
-        let controlPanel: Phaser.GameObjects.DOMElement = this.add.dom(125, 300).createFromCache('controlPanel');
+        /* let controlPanel: Phaser.GameObjects.DOMElement = this.add.dom(125, 300).createFromCache('controlPanel');
 
         let moveBtn: Element = controlPanel.getChildByID('moveBtn');
         moveBtn.addEventListener('click', () => {
@@ -171,28 +200,27 @@ export class CrazyParkingLot extends Phaser.Scene {
             console.log('tileX : ' + tileX);
             console.log('tileY : ' + tileY);
             doMove(this, uuid, tileX, tileY);
-        });
- 
-        let dragBtn = this.add.rectangle(0, 0, 250, 100, 0x6666ff);
+        }); */
 
+        // insert container into scene with contorl panel 
+        /* let dragBtn = this.add.rectangle(0, 0, 250, 100, 0x6666ff);
         let container = this.add.container(300, 500);
         container.add([dragBtn, controlPanel]);
         container.setSize(250, 100);
-        container.setDepth(1);
+        container.setDepth(1); */
+
         // container.setInteractive(dragBtn, Phaser.Geom.Rectangle.Contains);
         // container.setInteractive(new Phaser.Geom.Rectangle(0, 0, 250, 100), Phaser.Geom.Rectangle.Contains);
-
-        console.log(container);
 
         // let graphics = this.add.graphics();
         // graphics.lineStyle(2, 0x00ffff, 1);
         // graphics.strokeRect(container.x - 250, container.y - 50, container.input.hitArea.width, container.input.hitArea.height);
 
         // drag with rexPlugin
-        let cpDrag = new Drag(container, {
-            enable: true,
-            axis: 'both',
-        }).drag();
+        // let cpDrag = new Drag(container, {
+        //     enable: true,
+        //     axis: 'both',
+        // }).drag();
 
         // let conX = container.x;
         // let conY = container.y;
@@ -211,10 +239,9 @@ export class CrazyParkingLot extends Phaser.Scene {
         // }, this);
 
         // save control panel on Phaser registry
-        this.registry.set('controlPanel', controlPanel);
+        // this.registry.set('controlPanel', controlPanel);
 
         // old
-        // setControlPanel(this);
 
     } // create
 
@@ -280,12 +307,12 @@ const config: Phaser.Types.Core.GameConfig = {
         createContainer: true
     },
     pixelArt: true,
-    scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
-    },
+    // scale: {
+    //     mode: Phaser.Scale.FIT,
+    //     autoCenter: Phaser.Scale.CENTER_BOTH
+    // },
     backgroundColor: '#b7dfed',
-    // canvasStyle: `left: ${settings.cnvAdjWidth}px; top: ${settings.cnvAdjHeight}px; position: absolute; z-index: -1;`,
+    canvasStyle: `left: ${settings.cnvAdjWidth}px; top: ${settings.cnvAdjHeight}px; position: absolute; z-index: -1;`,
     // canvasStyle: `touch-action: auto; overflow: hidden; margin: 0%; padding: 0%;`,
     // canvasStyle: `z-index: -1;`,
     // plugins: {
