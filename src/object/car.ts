@@ -67,7 +67,8 @@ export class Car {
 
         // this.sprite.setFrame(10);
         this.setTileCollisionEvent();
-                     
+        
+        // scene update event
         scene.events.on('update', () => {
             
             let distance = Phaser.Math.Distance.Between(
@@ -94,7 +95,16 @@ export class Car {
                         car.sprite.y
                     )
                     console.log(distance);
-
+                    /**
+                     * * if distance is under 100px set tint on object
+                     * * if distance is not under 100px remove tint on object
+                     */
+                    if(distance <= 1000) {
+                        this.sprite.setTint(0xff0000);
+                        car.sprite.setTint(0xff0000);
+                    } /* else {
+                        this.sprite.clearTint();
+                    } */
                 }
             }
 
@@ -207,6 +217,7 @@ export class Car {
                 this.sprite.body.reset(this.sprite.x, this.sprite.y);
                 this.realPos = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
                 this.tilePos = this.pixPosToTilePos(this.sprite.x, this.sprite.y);
+                this.moving = false;
                 this.carMovedEmit();
             }
         );
@@ -216,6 +227,7 @@ export class Car {
                 this.sprite.body.reset(this.sprite.x, this.sprite.y);
                 this.realPos = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
                 this.tilePos = this.pixPosToTilePos(this.sprite.x, this.sprite.y);
+                this.moving = false;
                 this.carMovedEmit();
             }
         );
