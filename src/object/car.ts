@@ -77,11 +77,32 @@ export class Car {
                 this.targetPixPos.y
             );
             
+            // calculate distance between objects, when this object is moving
+            if(this.moving === true) {
+                const carIds: string[] = (scene.registry.get('carIds') as string[]).filter(value => {
+                    return (value !== this.uuid);
+                });
+                
+                console.log(carIds);
+                for(let eachId of carIds) {
+
+                    let car: Car = scene.registry.get(eachId);
+                    let distance = Phaser.Math.Distance.Between(
+                        this.sprite.x,
+                        this.sprite.y,
+                        car.sprite.x,
+                        car.sprite.y
+                    )
+                    console.log(distance);
+
+                }
+            }
+
             // 10 pixel 아래일경우 원하는 지정 목표 타일 좌표에 도착한것으로 간주
             if(distance < 10 && this.moving === true) {
 
                 this.sprite.body.reset(this.targetPixPos.x, this.targetPixPos.y);
-                this.setPixPos(this.targetPixPos.x, this.targetPixPos.y);
+                this.setPixelPos(this.targetPixPos.x, this.targetPixPos.y);
                 //this.tilePos = this.pixPosToTilePos(this.targetPixPos.x, this.targetPixPos.y);
                 this.tilePos = this.targetTilePos;
 
@@ -139,7 +160,7 @@ export class Car {
 
     }
 
-    carMovedEmit() {
+    carMovedEmit(): void {
         this.socketClient.emit('carMoved', {
             uuid: this.uuid,
             tilePos: {
@@ -200,7 +221,7 @@ export class Car {
         );
     }
 
-    setPixPos(realX: number, realY: number): void {
+    setPixelPos(realX: number, realY: number): void {
         this.realPos = new Phaser.Math.Vector2(realX, realY);
     }
 

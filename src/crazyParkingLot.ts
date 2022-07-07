@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 // phaser3 rex plugins
 // import GesturesPlugin from 'phaser3-rex-plugins/plugins/gestures-plugin';
 import { Pinch } from 'phaser3-rex-plugins/plugins/gestures';
-import Drag from 'phaser3-rex-plugins/plugins/drag';
+// import Drag from 'phaser3-rex-plugins/plugins/drag';
 
 import { settings }  from './config/settings';
 import { Car } from './object/car';
@@ -126,6 +126,7 @@ export class CrazyParkingLot extends Phaser.Scene {
             reconnectionDelayMax: 10000
         });
 
+        const carIds: string[] = [];
         // socket
         this.socketClient.on('currentCpl', (cplStatus) => {
             console.log(cplStatus);
@@ -145,7 +146,9 @@ export class CrazyParkingLot extends Phaser.Scene {
                     car.sprite.angle = eachCar.angle;
                     car.parked = eachCar.parked;
                     this.registry.set(uuid, car);
+                    carIds.push(uuid);
                 }
+                this.registry.set('carIds', carIds);
             }
             // persons
             if(cplStatus.persons) {
@@ -190,7 +193,8 @@ export class CrazyParkingLot extends Phaser.Scene {
         });
 
         // create test control panel for object movement
-        /* let controlPanel: Phaser.GameObjects.DOMElement = this.add.dom(125, 300).createFromCache('controlPanel');
+        /* 
+        let controlPanel: Phaser.GameObjects.DOMElement = this.add.dom(125, 300).createFromCache('controlPanel');
 
         let moveBtn: Element = controlPanel.getChildByID('moveBtn');
         moveBtn.addEventListener('click', () => {
@@ -200,14 +204,17 @@ export class CrazyParkingLot extends Phaser.Scene {
             console.log('tileX : ' + tileX);
             console.log('tileY : ' + tileY);
             doMove(this, uuid, tileX, tileY);
-        }); */
+        }); 
+        */
 
         // insert container into scene with contorl panel 
-        /* let dragBtn = this.add.rectangle(0, 0, 250, 100, 0x6666ff);
+        /* 
+        let dragBtn = this.add.rectangle(0, 0, 250, 100, 0x6666ff);
         let container = this.add.container(300, 500);
         container.add([dragBtn, controlPanel]);
         container.setSize(250, 100);
-        container.setDepth(1); */
+        container.setDepth(1); 
+        */
 
         // container.setInteractive(dragBtn, Phaser.Geom.Rectangle.Contains);
         // container.setInteractive(new Phaser.Geom.Rectangle(0, 0, 250, 100), Phaser.Geom.Rectangle.Contains);
@@ -250,7 +257,7 @@ export class CrazyParkingLot extends Phaser.Scene {
     }
 }
 
-function setPinchDrag(scene, layerWidth, layerHeight) {
+function setPinchDrag(scene: Phaser.Scene, layerWidth: number, layerHeight: number) {
     let camera = scene.cameras.main;
     camera.scrollX += (layerWidth / 2) - (settings.phrWidth / 2);
     camera.scrollY += (layerHeight / 2) - (settings.phrHeight / 2);
