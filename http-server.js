@@ -11,7 +11,7 @@ const port = 3000;
 
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
-const config = require('./webpack.config.js');
+const config = require('./webpack.config.ts');
 const compiler = webpack(config);
 
 const path = require('path');
