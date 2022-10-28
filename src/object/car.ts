@@ -151,7 +151,7 @@ export class Car {
             (document.getElementById('targetUUID') as HTMLInputElement).value = this.uuid;
             (document.getElementById('tileX') as HTMLInputElement).value = String(this.tilePos.x);
             (document.getElementById('tileY') as HTMLInputElement).value = String(this.tilePos.y);
-
+            (document.getElementById('angle') as HTMLInputElement).value = String(this.sprite.angle);
         });
 
         this.sprite.on('pointerup', (pointer: any) => {
