@@ -2,7 +2,7 @@
     "compilerOptions": {
         "outDir": "./dist/",
         "noImplicitAny": false,
-        "module": "es6",
+        "module": "CommonJS",
         "target": "es6",
         "jsx": "preserve",
         "allowJs": true,
@@ -22,7 +22,8 @@
             "@types",
 		],
 		"types": [
-			"phaser"
+			"phaser",
+			"node"
 		]
 
     },

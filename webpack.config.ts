@@ -1,7 +1,8 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import path from 'path';
+import * as webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-module.exports = {
+const config: webpack.Configuration = {
     // entry: {
     //     index: {
     //         import: './src/index.js',
@@ -72,3 +73,5 @@ module.exports = {
     },
     mode: 'development'
 }
+
+export default config;
