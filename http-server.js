@@ -17,6 +17,7 @@ const compiler = webpack(config);
 const path = require('path');
 const fs = require('fs');
 
+// create random parking lot status
 const currentCpl = require('./cplStatusGen/initRandomCpl')();
 console.log(currentCpl);
 
@@ -24,8 +25,10 @@ io.on('connection', (socket) => {
     console.log('connect from client');
     console.log(socket);
 
+    // When new user on connection, recieve current parking lot status
     socket.emit('currentCpl', currentCpl);
 
+    // When car moved event occured, broadcast moved data
     socket.on('carMoved', (movedData) => {
         console.log('carMoved!!');
         console.log(movedData);
